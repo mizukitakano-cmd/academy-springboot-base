@@ -1,9 +1,9 @@
 services:
   app:
     image: spring-docker-app:latest
-    #build:
-      #context: ./
-      #dockerfile: Dockerfile
+    build:
+      context: ./
+      dockerfile: Dockerfile
     working_dir: /app
     ports:
       - 8080:8080
