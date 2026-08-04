@@ -26,13 +26,13 @@ public class SpringbootController {
 
     @GetMapping("/signin")
     public String showSignupPage(Model model) {
-        model.addAttribute("springbootForm", new SignupForm());
+        model.addAttribute("springbootForm", new signupForm());
         return "signin";
     }
 
     @PostMapping("/register")
     public String registerUser(
-        @Valid @ModelAttribute("springbootForm") SignupForm form,
+        @Valid @ModelAttribute("springbootForm") signupForm form,
         BindingResult result,
         Model model,
         HttpServletRequest request

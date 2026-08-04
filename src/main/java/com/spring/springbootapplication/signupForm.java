@@ -7,7 +7,7 @@ import jakarta.validation.constraints.Size;
 import lombok.Data;
 
 @Data
-public class SignupForm {
+public class signupForm {
 
     @NotBlank(message = "氏名は必ず入力してください。")
     @Size(max = 255, message ="氏名は255文字以内で入力してください。")
