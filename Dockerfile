@@ -1,4 +1,4 @@
-FROM gradle:8-jdk17 AS build
+FROM gradle:8.7-jdk17 AS build
 WORKDIR /app
 COPY build.gradle settings.gradle ./
 RUN gradle dependencies --no-daemon || true
