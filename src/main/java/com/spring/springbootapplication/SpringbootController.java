@@ -24,36 +24,36 @@ public class SpringbootController {
     @Autowired
     private PasswordEncoder passwordEncoder;
 
+    @Autowired
+    private UserRepository userRepository;
+
     @GetMapping("/signin")
     public String showSignupPage(Model model) {
-        model.addAttribute("springbootForm", new signupForm());
+        model.addAttribute("springbootForm", new SignupForm());
         return "signin";
     }
 
     @PostMapping("/register")
     public String registerUser(
-        @Valid @ModelAttribute("springbootForm") signupForm form,
+        @Valid @ModelAttribute("springbootForm") SignupForm signupForm,
         BindingResult result,
         Model model,
         HttpServletRequest request
     ) {
 
         if (result.hasErrors()) {
+            result.rejectValue("email","error.email", "このメールアドレスは既に登録されいます。");
+            model.addAttribute("springbootForm", signupForm);
             return "signin";
         }
 
-        String rawPassword = form.getPassword();
+        String rawPassword = signupForm.getPassword();
         String hashedPassword = passwordEncoder.encode(rawPassword);
-        
-        try {
+        signupForm.setPassword(hashedPassword);
 
-            request.login(form.getEmail(), rawPassword);
-        } catch (ServletException e) {
-            e.printStackTrace();
-        }
-        
-        form.setPassword(hashedPassword);
-        return "redirect:/top";
+        userRepository.save(signupForm);
+
+        return "redirect:/login";
     }
 
     @GetMapping("/top")
