@@ -1,6 +1,5 @@
 services:
   app:
-    image: spring-docker-app:latest
     build:
       context: ./
       dockerfile: Dockerfile
@@ -9,13 +8,13 @@ services:
       - 8080:8080
       - 5050:5050
     tty: true
-    #volumes:
-    #- ./:/app
+    volumes:
+      - ./:/app
     depends_on:
       - db
 
   db:
-    image: postgres:16
+    image: postgres:13.1
     container_name: db
     environment:
       POSTGRES_USER: "postgres"
