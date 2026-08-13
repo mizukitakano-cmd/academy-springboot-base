@@ -3,6 +3,7 @@ package com.spring.springbootapplication;
 
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.autoconfigure.security.SecurityProperties;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -10,6 +11,8 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
+
+import com.spring.springbootapplication.form.SignupForm;
 
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
@@ -49,9 +52,13 @@ public class SpringbootController {
 
         String rawPassword = signupForm.getPassword();
         String hashedPassword = passwordEncoder.encode(rawPassword);
-        signupForm.setPassword(hashedPassword);
 
-        userRepository.save(signupForm);
+        User user = new User();
+        user.setName(signupForm.getName());
+        user.setEmail(signupForm.getEmail());
+        user.setPassword(hashedPassword);
+
+        userRepository.save(user);
 
         return "redirect:/login";
     }
@@ -59,6 +66,17 @@ public class SpringbootController {
     @GetMapping("/top")
     public String showTopPage() {
         return "top";
+    }
+
+    @GetMapping("/login")
+    public String showLoginPage(Model model) {
+        model.addAttribute("loginForm", new LoginForm());
+        return "login";
+    }
+
+    @PostMapping("/login")
+    public String loginProcess(@ModelAttribute LoginForm loginForm) {
+        return "redirect:/top";
     }
 
 }

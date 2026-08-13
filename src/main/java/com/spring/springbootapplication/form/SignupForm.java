@@ -1,4 +1,4 @@
-package com.spring.springbootapplication;
+package com.spring.springbootapplication.form;
 
 /*import jakarta.validation.constraints.Email;*/
 import jakarta.validation.constraints.NotBlank;
