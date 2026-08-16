@@ -3,7 +3,7 @@ WORKDIR /app
 COPY build.gradle settings.gradle ./
 RUN gradle dependencies --no-daemon || true
 COPY src ./src
-RUN gradle bootJar --no-daemon
+RUN gradle bootJar -x test --no-daemon
 
 FROM eclipse-temurin:17-jre-jammy
 WORKDIR /app
