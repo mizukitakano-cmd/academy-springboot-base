@@ -15,7 +15,7 @@ public class SignupForm {
 
     @NotBlank(message = "メールアドレスは必ず入力してください。")
     @Pattern(
-        regexp = "^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}$",
+        regexp = "^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9-]+\\.[a-zA-Z]{2,}$",
         message = "メールアドレスが正しい形式ではありません。")
     private String email;
 
