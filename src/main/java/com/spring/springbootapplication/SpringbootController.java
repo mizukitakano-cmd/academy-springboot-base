@@ -75,7 +75,13 @@ public class SpringbootController {
     }
 
     @PostMapping("/login")
-    public String loginProcess(@ModelAttribute LoginForm loginForm) {
+    public String loginProcess(
+        @jakarta.validation.Valid @ModelAttribute LoginForm loginForm,
+        org.springframework.validation.BindingResult result
+    ) {
+        if (result.hasErrors()) {
+            return "login";
+        }
         return "redirect:/top";
     }
 
