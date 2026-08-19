@@ -41,7 +41,7 @@ public class SpringbootController {
         HttpServletRequest request
     ) {
 
-        if (userRepository.findByEmail(signupForm.getEmail()) != null){
+        if (userRepository.existsByEmail(signupForm.getEmail())){
             result.rejectValue("email","error.email", "このメールアドレスは既に登録されいます。");
         }
 
