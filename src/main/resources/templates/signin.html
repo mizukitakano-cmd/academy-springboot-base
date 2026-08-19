@@ -27,15 +27,13 @@
             <div class="form-group">
                 <label class="form-label">メールアドレス</label>
                 <input type="email" th:field="*{email}" placeholder="example@email.com" />
-
-                <div class="error-msg" th:if="${#fields.hasErrors('email')}" th:errors="*{email}"></div>
+                    <div class="error-msg" th:if="${#fields.hasErrors('email')}" th:errors="*{email}"></div>
             </div>
 
             <div class="form-group">
                 <label class="form-label">パスワード</label>
                 <input type="password" th:field="*{password}" placeholder="パスワードを入力してください。" />
-
-                <div class="error-msg" th:if="${#fields.hasErrors('password')}" th:errors="*{password}"></div>
+                    <div class="error-msg" th:if="${#fields.hasErrors('password')}" th:errors="*{password}"></div>
             </div>
 
             <button type="submit" class="submit-btn">登録する</button>
