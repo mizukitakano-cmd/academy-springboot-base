@@ -3,7 +3,6 @@ package com.spring.springbootapplication;
 
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.autoconfigure.security.SecurityProperties;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -14,7 +13,6 @@ import org.springframework.web.bind.annotation.PostMapping;
 
 import com.spring.springbootapplication.form.SignupForm;
 
-import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.Valid;
 import lombok.Data;
@@ -43,8 +41,11 @@ public class SpringbootController {
         HttpServletRequest request
     ) {
 
-        if (result.hasErrors()) {
+        if (userRepository.findByEmail(signupForm.getEmail()) != null){
             result.rejectValue("email","error.email", "このメールアドレスは既に登録されいます。");
+        }
+
+        if (result.hasErrors()) {
             model.addAttribute("springbootForm", signupForm);
             return "signin";
         }
