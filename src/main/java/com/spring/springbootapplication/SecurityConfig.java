@@ -34,12 +34,12 @@ public class SecurityConfig {
             .permitAll()
         )
 
-        .logout(logout -> logout
+        /*.logout(logout -> logout
             .logoutSuccessUrl("/login?error")
             .permitAll()
         )
 
-        .csrf(csrf -> csrf.disable());
+        .csrf(csrf -> csrf.disable());*/
             
     return http.build();
 

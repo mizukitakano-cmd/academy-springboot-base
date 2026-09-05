@@ -60,8 +60,14 @@ public class SpringbootController {
 
         userRepository.save(user);
 
+        /*try {
+            request.login(signupForm.getEmail(), rawPassword);
+        } catch (ServetException e) {
+
         return "redirect:/login";
-    }
+    }*/
+
+    return "redirect:/top";
 
     @GetMapping("/top")
     public String showTopPage() {
