@@ -64,8 +64,8 @@ public class SpringbootController {
             request.login(signupForm.getEmail(), rawPassword);
         } catch (ServetException e) {
 
-        return "redirect:/login";
-    }*/
+        return "redirect:/login";*/
+    }
 
     return "redirect:/top";
 
