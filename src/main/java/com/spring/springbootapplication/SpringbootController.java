@@ -42,7 +42,6 @@ public class SpringbootController {
         }
 
         if (result.hasErrors()) {
-            model.addAttribute("springbootForm", signupForm);
             return "signin";
         }
 
@@ -69,5 +68,4 @@ public class SpringbootController {
     public String showTopPage() {
         return "top";
     }
-
 }
