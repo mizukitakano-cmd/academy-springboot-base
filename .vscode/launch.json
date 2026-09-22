@@ -1,0 +1,19 @@
+{
+    "version": "0.2.0",
+    "configurations": [
+      {
+        "type": "java",
+        "name": "SpringbootApplication",
+        "request": "launch",
+        "mainClass": "com.spring.springbootapplication.SpringbootApplication",
+        "projectName": "academy-springboot-base"
+      },
+      {
+        "type": "java",
+        "name": "java (Attach)",
+        "request": "attach",
+        "hostName": "localhost",
+        "port": 5050
+      }
+    ]
+  }
