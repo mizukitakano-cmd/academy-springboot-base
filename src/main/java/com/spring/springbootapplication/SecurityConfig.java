@@ -19,8 +19,17 @@ public class SecurityConfig {
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
             .authorizeHttpRequests(authorize -> authorize
-                .requestMatchers("/signin", "/signup", "/register", "/top", "/css/**", "/js/**").permitAll()
+                .requestMatchers("/signin", "/signup", "/register", "/login", "/css/**", "/js/**").permitAll()
                 .anyRequest().authenticated()
+            )
+            .formLogin(form -> form
+                .loginPage("/login")
+                .loginProcessingUrl("/login")
+                .usernameParameter("email")
+                .passwordParameter("password")
+                .defaultSuccessUrl("/top", false)
+                .failureUrl("/login?error=true")
+                .permitAll()
             )
             .csrf(csrf -> csrf.disable());
             

@@ -24,6 +24,13 @@ public class SpringbootController {
     @Autowired
     private UserRepository userRepository;
 
+    //簡易TOP画面の表示
+    @GetMapping("/top")
+    public String showTopPage() {
+        return "top";
+    }
+
+    //新規登録
     @GetMapping("/signin")
     public String showSignupPage(Model model) {
         model.addAttribute("springbootForm", new SignupForm());
@@ -62,10 +69,5 @@ public class SpringbootController {
         }
 
         return "redirect:/top";
-    }
-
-    @GetMapping("/top")
-    public String showTopPage() {
-        return "top";
     }
 }
