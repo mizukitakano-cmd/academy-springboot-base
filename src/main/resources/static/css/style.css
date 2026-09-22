@@ -58,7 +58,7 @@ body {
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    padding:40px 40px 60px;
+    padding:0px 40px 60px;
     margin: 0 auto;
     position: relative;
     box-sizing: border-box;
@@ -71,7 +71,7 @@ body {
     line-height: 1.33;
     color: rgba(0, 0, 0, 0.75);
     text-align: center;
-    margin-top: 40px;
+    margin-top: 0px;
     margin-bottom: 24px;
     display: block;
 }

@@ -19,7 +19,7 @@
 
             <form th:action="@{/login}" method="post" class="signup-form" novalidate>
                 
-                <div th:if="${errorMessage}" class="error-msg" style="margin-top: 0; margin-bottom: -20px;">
+                <div th:if="${errorMessage}" class="error-msg">
                     <p th:text="${errorMessage}"></p>
                 </div>
 
@@ -34,7 +34,7 @@
                 </div>
 
                 <div class="button-group">
-                    <button type="submit" class="submit-btn" style="margin: 0;">ログイン</button>
+                    <button type="submit" class="submit-btn">ログイン</button>
                     <a th:href="@{/signin}" class="sub-btn" style="background-color: #6c757d;">新規登録する</a>
                 </div>
 

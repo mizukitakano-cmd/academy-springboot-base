@@ -39,7 +39,7 @@ public class SpringbootController {
 
     @PostMapping("/register")
     public String registerUser(
-        @Valid @ModelAttribute("springbootForm") SignupForm signupForm,
+        @org.springframework.validation.annotation.Validated(SignupForm.GroupOrder.class) @ModelAttribute("springbootForm") SignupForm signupForm,
         BindingResult result,
         Model model,
         HttpServletRequest request
