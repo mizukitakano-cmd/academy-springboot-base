@@ -78,11 +78,11 @@ body {
 
 .signup-form {
     width: 480px;
-    min-height: 341px;
+    min-height: 268px;
     display: flex;
     flex-direction: column;
     justify-content: space-between;
-    gap: 20px;
+    gap: 48px;
 }
 
 .form-label {
