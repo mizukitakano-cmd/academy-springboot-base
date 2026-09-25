@@ -64,6 +64,7 @@ body {
 .logo2 {
     font-size: 36px;
     font-weight: bold;
+    font-weight: 700;
     width: 100%;
     text-align: center;
 }
@@ -123,6 +124,8 @@ body {
     border: none;
     border-bottom: 1px solid #ccc;
     font-size: 16px;
+    font-weight: 400;
+    line-height:1.5;
     cursor: pointer;
     box-sizing: border-box;
 }
@@ -189,13 +192,13 @@ body {
     display: inline-flex;
     justify-content: center;
     align-items: center;
-    width: 232px;
-    height: 53px;
+    width: 344px;
+    height: 48px;
     background-color: #1b5678;
     color: #FFF;
     border: none;
     border-radius: 4px;
-    font-size: 18px;
+    font-size: 16px;
     font-weight: normal;
     text-decoration: none;
     cursor: pointer;
@@ -207,13 +210,13 @@ body {
     display: inline-flex;
     justify-content: center;
     align-items: center;
-    width: 232px;
-    height: 53px;
+    width: 344px;
+    height: 48px;
     background-color: #1b5678;
     color: #FFF;
     border: none;
     border-radius: 4px;
-    font-size: 18px;
+    font-size: 16px;
     font-weight: normal;
     text-decoration: none;
     cursor: pointer;
@@ -235,5 +238,6 @@ body {
 }
 
 .footer-logo {
-    font-size: 14px;
+    font-size: 18px;
+    font-weight: 400;
 }
