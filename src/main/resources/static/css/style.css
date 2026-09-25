@@ -204,11 +204,11 @@ body {
 }
 
 .sub-btn {
-    display: inline-flex;
-    justify-content: center;
-    align-items: center;
+    display: block;
     width: 232px;
     height: 53px;
+    line-height: 53px;
+    text-align: center;
     background-color: #1b5678;
     color: #FFF;
     border: none;
