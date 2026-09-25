@@ -1,6 +1,9 @@
 package com.spring.springbootapplication;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -12,9 +15,9 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import com.spring.springbootapplication.form.SignupForm;
 
-import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.Valid;
+import java.util.Collections;
 
 @Controller
 public class SpringbootController {
@@ -25,12 +28,14 @@ public class SpringbootController {
     @Autowired
     private UserRepository userRepository;
 
+    //新規登録画面の表示
     @GetMapping("/signin")
     public String showSignupPage(Model model) {
         model.addAttribute("springbootForm", new SignupForm());
-        return "signin";
+        return "signin"; // signin.htmlを表示
     }
 
+    //新規登録の処理
     @PostMapping("/register")
     public String registerUser(
         @Valid @ModelAttribute("springbootForm") SignupForm signupForm,
@@ -55,9 +60,15 @@ public class SpringbootController {
         user.setPassword(hashedPassword);
         userRepository.save(user);
 
+        // 新規登録後に自動ログイン状態にする処理
         try {
-            request.login(signupForm.getEmail(), rawPassword);
-        } catch (ServletException e) {
+            Authentication authentication = new UsernamePasswordAuthenticationToken(
+                user.getEmail(),
+                null,
+                Collections.emptyList()
+            );
+            SecurityContextHolder.getContext().setAuthentication(authentication);
+        } catch (Exception e) {
             e.printStackTrace();
             return "redirect:/signin";
         }
@@ -65,6 +76,7 @@ public class SpringbootController {
         return "redirect:/top";
     }
 
+    //ログイン画面の表示
     @GetMapping("/login")
     public String showLoginPage(@RequestParam(value = "error", required = false) String error, Model model) {
         
@@ -73,9 +85,10 @@ public class SpringbootController {
             model.addAttribute("loginError", "メールアドレス、もしくはパスワードが間違っています");
         }
         
-        return "login";
+        return "login"; // login.htmlを表示
     }
 
+    //TOPページの表示
     @GetMapping("/top")
     public String showTopPage() {
         return "top";
