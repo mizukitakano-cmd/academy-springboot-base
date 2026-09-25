@@ -61,12 +61,9 @@ body {
     font-weight: bold;
 }
 
-/*ログインページだけ中央寄せ*/
-.login-page .header {
-    justify-content: center;
-}
-
-.login-page .logo {
+.logo2 {
+    font-size: 36px;
+    font-weight: bold;
     width: 100%;
     text-align: center;
 }
@@ -182,13 +179,30 @@ body {
 .button-group {
     display: flex;
     flex-direction: column;
-    gap: 24px;
     align-items: center;
-    margin-top: 48px;
     width: 100%;
 }
 
-.submit-btn,
+.submit-btn {
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+    width: 232px;
+    height: 53px;
+    background-color: #1b5678;
+    color: #FFF;
+    border: none;
+    border-radius: 4px;
+    font-size: 18px;
+    font-weight: normal;
+    text-decoration: none;
+    cursor: pointer;
+    box-sizing: border-box;
+    flex-shrink: 0;
+    margin-top: 48px;
+    margin-bottom: 24px;
+}
+
 .sub-btn {
     display: inline-flex;
     justify-content: center;
@@ -204,12 +218,7 @@ body {
     text-decoration: none;
     cursor: pointer;
     box-sizing: border-box;
-    transition: background-color 0.2s;
-}
-
-.submit-btn:hover,
-.sub-btn:hover {
-    background-color: #143f59;
+    flex-shrink: 0;
 }
 
 
