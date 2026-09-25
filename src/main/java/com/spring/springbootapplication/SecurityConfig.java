@@ -31,9 +31,13 @@ public class SecurityConfig {
                 .defaultSuccessUrl("/top", true)
                 .permitAll()
             )
+
             // ログアウトの設定
-            .logout(logout -> logout
-                .logoutSuccessUrl("/top")
+                .logout(logout -> logout
+                .logoutUrl("/logout")
+                .logoutSuccessUrl("/login")
+                .invalidateHttpSession(true)
+                .deleteCookies("JSESSIONID")
                 .permitAll()
             )
             .csrf(csrf -> csrf.disable());

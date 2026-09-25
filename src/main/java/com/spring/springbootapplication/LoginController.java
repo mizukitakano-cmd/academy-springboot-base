@@ -1,7 +1,15 @@
 package com.spring.springbootapplication;
 
 import java.util.regex.Pattern;
+import java.util.Collections;
+import java.util.Optional;
 
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -9,8 +17,15 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+
 @Controller
 public class LoginController {
+
+    @Autowired
+    private UserRepository userRepository;
+
+    @Autowired
+    private PasswordEncoder passwordEncoder;
 
     //ログイン画面を表示する
     @GetMapping("/login")
@@ -29,27 +44,37 @@ public class LoginController {
         @RequestParam("password") String password,
         RedirectAttributes redirectAttributes
     ) {
+        
         //未入力のチェック
         if (email == null || email.trim().isEmpty()) {
             redirectAttributes.addFlashAttribute("loginError", "メールアドレスを入力してください");
             return "redirect:/login";
         }
 
-        //入力されている場合のみ、形式チェック
-        String emailPattern = "^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}$";
-        if (!Pattern.matches(emailPattern, email)) {
-            redirectAttributes.addFlashAttribute("loginError", "メールアドレスが正しい形式ではありません");
+  // DBからユーザーを探す
+        Optional<User> userOpt = userRepository.findByEmail(email);
+        
+        // ユーザーが存在しない、またはパスワードが一致しない場合
+        if (userOpt.isEmpty() || !passwordEncoder.matches(password, userOpt.get().getPassword())) {
+            redirectAttributes.addFlashAttribute("loginError", "メールアドレス、もしくはパスワードが間違っています");
             return "redirect:/login";
         }
 
-        //パスワードの未入力チェック
-        if (password == null || password.trim().isEmpty()) {
-            redirectAttributes.addFlashAttribute("loginError", "パスワードを入力してください");
+        //すべてのチェックに合格/top へジャンプ ───
+        try {
+            Authentication authentication = new UsernamePasswordAuthenticationToken(
+                email,
+                null,
+                Collections.emptyList()
+            );
+
+            SecurityContextHolder.getContext().setAuthentication(authentication);
+        } catch (Exception e) {
+            e.printStackTrace();
             return "redirect:/login";
         }
 
-        //すべてのチェックをすり抜けたら本来の処理へフォワード
-        return "forward:/login";
+        return "redirect:/top";
     }
 
     //TOPページの表示
@@ -57,4 +82,5 @@ public class LoginController {
     public String showTopPage() {
         return "top";
     }
+
 }
