@@ -15,7 +15,7 @@
         <main class="main-container">
 
             <h1 class="page-title">ログイン</h1>
-                <form th:action="@{/login-validation}" method="post" class="signup-form" novalidate>
+                <form th:action="@{/login-validation}" method="post" class="login-form" novalidate>
                 
                     <div th:if="${loginError}" th:text="${loginError}" class="error-msg" style="color: red; font-size: 14px; margin-bottom: 15px; text-align: left;"></div>
 
