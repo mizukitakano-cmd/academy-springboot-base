@@ -8,6 +8,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import com.spring.springbootapplication.form.SignupForm;
 
@@ -62,6 +63,17 @@ public class SpringbootController {
         }
 
         return "redirect:/top";
+    }
+
+    @GetMapping("/login")
+    public String showLoginPage(@RequestParam(value = "error", required = false) String error, Model model) {
+        
+        // 要件：メールアドレス、パスワードが一致しない場合はエラーメッセージを表示させる
+        if (error != null) {
+            model.addAttribute("loginError", "メールアドレス、もしくはパスワードが間違っています");
+        }
+        
+        return "login";
     }
 
     @GetMapping("/top")

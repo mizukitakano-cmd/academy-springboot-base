@@ -17,33 +17,35 @@
 
             <h1 class="page-title">新規登録</h1>
 
-            <form th:action="@{/register}" th:object="${springbootForm}" method="post" class="signup-form" novalidate>
+                <form th:action="@{/register}" th:object="${springbootForm}" method="post" class="signup-form" novalidate>
                 
-                <div class="form-group">
-                    <label class="form-label">氏名</label>
-                    <input type="text" th:field="*{name}" placeholder="氏名を入力してください" />
-                    <div th:if="${#fields.hasErrors('name')}" th:errors="*{name}" class="error-msg"></div>
-                </div>
 
-                <div class="form-group">
-                    <label class="form-label">メールアドレス</label>
+                    <div class="form-group">
+                        <label class="form-label">氏名</label>
+                        <input type="text" th:field="*{name}" placeholder="氏名を入力してください" />
+                        <div th:if="${#fields.hasErrors('name')}" th:errors="*{name}" class="error-msg" style="color: red; font-size: 14px; margin-top: 5px;"></div>
+                    </div>
 
-                    <input type="text" th:field="*{email}" placeholder="メールアドレスを入力してください" />
-                    
-                    <div th:if="${#fields.hasErrors('email')}" th:errors="*{email}" class="error-msg"></div>
-                </div>
 
-                <div class="form-group">
-                    <label class="form-label">パスワード</label>
-                    <input type="password" th:field="*{password}" placeholder="パスワードを入力してください" />
-                    <div th:if="${#fields.hasErrors('password')}" th:errors="*{password}" class="error-msg"></div>
-                </div>
+                    <div class="form-group">
+                        <label class="form-label">メールアドレス</label>
+                        <input type="text" th:field="*{email}" placeholder="メールアドレスを入力してください" />
+                        <div th:if="${#fields.hasErrors('email')}" th:errors="*{email}" class="error-msg" style="color: red; font-size: 14px; margin-top: 5px;"></di>
+                    </div>
 
-                <div class="button-group">
-                    <button type="submit" class="submit-btn">登録する</button>
-                </div>
 
-            </form>
+                    <div class="form-group">
+                        <label class="form-label">パスワード</label>
+                        <input type="password" th:field="*{password}" placeholder="パスワードを入力してください" />
+                        <div th:if="${#fields.hasErrors('password')}" th:errors="*{password}" class="error-msg" style="color: red; font-size: 14px; margin-top: 5px;"></div>
+                    </div>
+
+
+                    <div class="button-group">
+                        <button type="submit" class="submit-btn">登録する</button>
+                    </div>
+
+                </form>
 
         </main>
 

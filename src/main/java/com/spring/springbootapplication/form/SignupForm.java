@@ -14,12 +14,11 @@ public class SignupForm {
     private String name;
 
     @NotBlank(message = "メールアドレスは必ず入力してください")
-
+    @Size(max = 255, message = "メールアドレスは255文字以内で入力してください")
     @Email(regexp = "^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}$", message = "メールアドレスが正しい形式ではありません")
     private String email;
 
     @NotBlank(message = "パスワードは必ず入力してください")
-
     @Pattern(regexp = "^(?=.*[A-Za-z])(?=.*\\d)[A-Za-z\\d]{8,}$", message = "英数字8文字以上で入力してください")
     private String password;
 }
