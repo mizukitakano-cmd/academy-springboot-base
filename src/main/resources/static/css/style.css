@@ -56,15 +56,19 @@ body {
     padding: 0 40px;
 }
 
-/*ログインページのときだけヘッダーを中央寄せにする*/
+.logo {
+    font-size: 36px;
+    font-weight: bold;
+}
 
+/*ログインページだけ中央寄せ*/
 .login-page .header {
     justify-content: center;
 }
 
-.logo, .logo2 {
-    font-size: 36px;
-    font-weight: bold;
+.login-page .logo {
+    width: 100%;
+    text-align: center;
 }
 
 .header-btn {
@@ -178,7 +182,7 @@ body {
 .button-group {
     display: flex;
     flex-direction: column;
-    gap: 16px;
+    gap: 24px;
     align-items: center;
     margin-top: 48px;
     width: 100%;
