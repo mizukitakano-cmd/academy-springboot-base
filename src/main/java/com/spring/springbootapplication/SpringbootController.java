@@ -1,0 +1,69 @@
+package com.spring.springbootapplication;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PostMapping;
+
+import com.spring.springbootapplication.form.SignupForm;
+
+import jakarta.servlet.ServletException;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.validation.Valid;
+
+@Controller
+public class SpringbootController {
+
+    @Autowired
+    private PasswordEncoder passwordEncoder;
+
+    @Autowired
+    private UserRepository userRepository;
+
+    //新規登録画面の表示
+    @GetMapping("/signin")
+    public String showSignupPage(Model model) {
+        model.addAttribute("springbootForm", new SignupForm());
+        return "signin"; // templates/signin.html を表示
+    }
+
+    //新規登録の処理
+    @PostMapping("/register")
+    public String registerUser(
+        @Valid @ModelAttribute("springbootForm") SignupForm signupForm,
+        BindingResult result,
+        Model model,
+        HttpServletRequest request
+    ) {
+        if (userRepository.existsByEmail(signupForm.getEmail())){
+            result.rejectValue("email", "error.email", "このメールアドレスは既に登録されています。");
+        }
+
+        if (result.hasErrors()) {
+            return "signin";
+        }
+
+        String rawPassword = signupForm.getPassword();
+        String hashedPassword = passwordEncoder.encode(rawPassword);
+
+        User user = new User();
+        user.setName(signupForm.getName());
+        user.setEmail(signupForm.getEmail());
+        user.setPassword(hashedPassword);
+        userRepository.save(user);
+
+        //自動ログイン
+        try {
+            request.login(signupForm.getEmail(), rawPassword);
+        } catch (ServletException e) {
+            e.printStackTrace();
+            return "redirect:/signin";
+        }
+
+        return "redirect:/top";
+    }
+}
