@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html xmlns:th="http://thymeleaf.org" lang="ja">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Top</title>
+        <link th:href="@{/css/style.css}" rel="stylesheet">
+    </head>
+    <body>
+
+        
+        <header class="header">
+            <div class="logo">My Portfolio</div>
+
+
+
+            <form th:action="@{/logout}" method="post" style="margin: 0;">
+                <button type="submit" class="header-btn">ログアウト</button>
+            </form>
+        </header>
+
+        <main class="main-container">
+            <h1 class="page-title">ログインに成功しました</h1>
+            <p style="text-align: center; color: #666;">ここは簡易的なトップ画面です</p>
+        </main>
+
+        <footer class="footer">
+            <div class="footer-logo">portfolio site</div>
+        </footer>
+
+    </body>
+</html>
