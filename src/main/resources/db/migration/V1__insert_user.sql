@@ -7,5 +7,7 @@ CREATE TABLE IF NOT EXISTS users (
 
 -- 2「初期データ（テストユーザー）」の投入処理
 INSERT INTO users (name, email, password)
-VALUES ('テストユーザー', 'test@email.com', '$2a$10$8.UnVuG9HHgffUDAlk8q7uy5shNypmieOXOMNJv6D6YUX6E8b1CgK')
-ON CONFLICT (email) DO NOTHING;
+SELECT 'katsushika', 'hokusai@fugaku.com', '$2a$10$wKzNn8jN/2LgP4qN6pT0vOmvS7oG6yN4aH2B0h9QJ.3VvH8X7p3Sy'
+WHERE NOT EXISTS (
+    SELECT 1 FROM users WHERE email = 'hokusai@fugaku.com'
+);
