@@ -8,4 +8,4 @@ CREATE TABLE IF NOT EXISTS users (
 -- 2「初期データ（テストユーザー）」の投入処理
 DELETE FROM users WHERE email = 'hokusai@fugaku.com';
 INSERT INTO users (name, email, password)
-VALUES ('katsushika', 'hokusai@fugaku.com', 'fugaku3673ura');
+VALUES ('katsushika', 'hokusai@fugaku.com', 'fugaku36');
