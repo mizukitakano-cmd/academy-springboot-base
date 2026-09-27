@@ -20,58 +20,56 @@ public class SecurityConfig {
         http
             //アクセス権限設定
             .authorizeHttpRequests(authorize -> authorize
-                .requestMatchers("/login", "/signin", "/signup", "/register", "/top", "/css/**", "/js/**").permitAll()
+                .requestMatchers("/login", "/signin", "/signup", "/register", "/top", "/css/**", "/js/**", "/login-validation").permitAll()
                 .anyRequest().authenticated()
             )
 
-            //ログイン設定
-                .formLogin(login -> login
+            // ログイン設定
+            .formLogin(login -> login
                 .loginPage("/login")
                 .loginProcessingUrl("/login")
                 .defaultSuccessUrl("/top", true)
                 .permitAll()
             )
-            // ログアウトの設定
+            
+            //ログアウトの設定
             .logout(logout -> logout
-                .logoutSuccessUrl("/top")
+                .logoutSuccessUrl("/top") // 現時点のデフォルトの状態にしておきます
                 .permitAll()
             )
+            
+            //CSRF対策設定
             .csrf(csrf -> csrf.disable());
             
-        //パスワード自動暗号化処理
-            try {
-                org.springframework.jdbc.core.JdbcTemplate jdbcTemplate = new org.springframework.jdbc.core.JdbcTemplate(
+        //初期データの出現を待つバックグラウンド処理 ───
+        try {
+            org.springframework.jdbc.core.JdbcTemplate jdbcTemplate = new org.springframework.jdbc.core.JdbcTemplate(
                 http.getSharedObject(javax.sql.DataSource.class)
             );
 
-            //「データの出現」を待つ
             new Thread(() -> {
                 int retryCount = 0;
                 boolean isReady = false;
 
                 while (retryCount < 5 && !isReady) {
                     try {
-
                         Integer count = jdbcTemplate.queryForObject(
                             "SELECT COUNT(*) FROM users WHERE email = 'hokusai@fugaku.com'", Integer.class
                         );
                         
                         if (count != null && count > 0) {
-
                             isReady = true;
                         } else {
-
                             Thread.sleep(3000);
                             retryCount++;
                         }
                     } catch (Exception e) {
-
                         try { Thread.sleep(3000); } catch (InterruptedException ie) {}
                         retryCount++;
                     }
                 }
 
-                //データが出揃ったら、安全にハッシュ化を実行
+                // データが出揃ったら、安全にハッシュ化を実行
                 if (isReady) {
                     try {
                         jdbcTemplate.query("SELECT email, password FROM users WHERE email = 'hokusai@fugaku.com'", (rs, rowNum) -> {
