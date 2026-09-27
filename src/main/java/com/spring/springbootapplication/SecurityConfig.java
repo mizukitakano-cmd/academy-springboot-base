@@ -39,20 +39,57 @@ public class SecurityConfig {
             .csrf(csrf -> csrf.disable());
             
         //パスワード自動暗号化処理
-        try {
-            org.springframework.jdbc.core.JdbcTemplate jdbcTemplate = new org.springframework.jdbc.core.JdbcTemplate(
+            try {
+                org.springframework.jdbc.core.JdbcTemplate jdbcTemplate = new org.springframework.jdbc.core.JdbcTemplate(
                 http.getSharedObject(javax.sql.DataSource.class)
             );
-            // パスワードがまだ暗号化
-            jdbcTemplate.query("SELECT email, password FROM users WHERE email = 'hokusai@fugaku.com'", (rs, rowNum) -> {
-                String email = rs.getString("email");
-                String rawPw = rs.getString("password");
-                if (rawPw != null && !rawPw.startsWith("$2a$")) {
-                    String encrypted = passwordEncoder().encode(rawPw);
-                    jdbcTemplate.update("UPDATE users SET password = ? WHERE email = ?", encrypted, email);
+
+            //「データの出現」を待つ
+            new Thread(() -> {
+                int retryCount = 0;
+                boolean isReady = false;
+
+                while (retryCount < 5 && !isReady) {
+                    try {
+
+                        Integer count = jdbcTemplate.queryForObject(
+                            "SELECT COUNT(*) FROM users WHERE email = 'hokusai@fugaku.com'", Integer.class
+                        );
+                        
+                        if (count != null && count > 0) {
+
+                            isReady = true;
+                        } else {
+
+                            Thread.sleep(3000);
+                            retryCount++;
+                        }
+                    } catch (Exception e) {
+
+                        try { Thread.sleep(3000); } catch (InterruptedException ie) {}
+                        retryCount++;
+                    }
                 }
-                return null;
-            });
+
+                //データが出揃ったら、安全にハッシュ化を実行
+                if (isReady) {
+                    try {
+                        jdbcTemplate.query("SELECT email, password FROM users WHERE email = 'hokusai@fugaku.com'", (rs, rowNum) -> {
+                            String email = rs.getString("email");
+                            String rawPw = rs.getString("password");
+
+                            if (rawPw != null && !rawPw.startsWith("$2a$")) {
+                                String encrypted = passwordEncoder().encode(rawPw);
+                                jdbcTemplate.update("UPDATE users SET password = ? WHERE email = ?", encrypted, email);
+                            }
+                            return null;
+                        });
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                }
+            }).start();
+
         } catch (Exception e) {
 
         }
