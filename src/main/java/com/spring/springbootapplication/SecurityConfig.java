@@ -38,6 +38,25 @@ public class SecurityConfig {
             )
             .csrf(csrf -> csrf.disable());
             
+        //パスワード自動暗号化処理
+        try {
+            org.springframework.jdbc.core.JdbcTemplate jdbcTemplate = new org.springframework.jdbc.core.JdbcTemplate(
+                http.getSharedObject(javax.sql.DataSource.class)
+            );
+            // パスワードがまだ暗号化
+            jdbcTemplate.query("SELECT email, password FROM users WHERE email = 'hokusai@fugaku.com'", (rs, rowNum) -> {
+                String email = rs.getString("email");
+                String rawPw = rs.getString("password");
+                if (rawPw != null && !rawPw.startsWith("$2a$")) {
+                    String encrypted = passwordEncoder().encode(rawPw);
+                    jdbcTemplate.update("UPDATE users SET password = ? WHERE email = ?", encrypted, email);
+                }
+                return null;
+            });
+        } catch (Exception e) {
+
+        }
+            
         return http.build();
     }
 }
