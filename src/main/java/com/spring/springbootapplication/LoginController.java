@@ -1,55 +1,47 @@
 package com.spring.springbootapplication;
 
-import java.util.regex.Pattern;
-
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.web.WebAttributes;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpSession;
 
 @Controller
 public class LoginController {
 
     //ログイン画面を表示する
     @GetMapping("/login")
-    public String showLoginPage(@RequestParam(value = "error", required = false) String error, Model model) {
-        // パスワードが一致しなくてSpring Securityから戻ってきたとき
+    public String showLoginPage(
+        @RequestParam(value = "error", required = false) String error,
+        Model model,
+        HttpServletRequest request
+    ) {
+        // Spring Securityがログイン失敗を検知したとき
         if (error != null) {
-            model.addAttribute("loginError", "メールアドレス、もしくはパスワードが間違っています");
+            HttpSession session = request.getSession(false);
+            String errorMessage = "メールアドレス、もしくはパスワードが間違っています";
+
+            if (session != null) {
+                // セッションからSpring Securityの実際のエラー原因を取り出す
+                Exception ex = (Exception) session.getAttribute(WebAttributes.AUTHENTICATION_EXCEPTION);
+                if (ex != null) {
+                    String msg = ex.getMessage();
+                    // 空欄だった場合や、Spring Securityが検知したエラーに応じてメッセージを出し分け
+                    if (msg != null && msg.contains("UserDetailsService returned null")) {
+                        errorMessage = "メールアドレスを入力してください";
+                    } else if (msg != null && msg.contains("Bad credentials")) {
+                        errorMessage = "メールアドレス、もしくはパスワードが間違っています";
+                    }
+                }
+            }
+
+            model.addAttribute("loginError", errorMessage);
         }
         return "login";
-    }
-
-    //個別のバリデーション
-    @PostMapping("/login-validation")
-    public String loginValidation(
-        @RequestParam("username") String email,
-        @RequestParam("password") String password,
-        RedirectAttributes redirectAttributes
-    ) {
-        //未入力のチェック
-        if (email == null || email.trim().isEmpty()) {
-            redirectAttributes.addFlashAttribute("loginError", "メールアドレスを入力してください");
-            return "redirect:/login";
-        }
-
-        //入力されている場合のみ、形式チェック
-        String emailPattern = "^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}$";
-        if (!Pattern.matches(emailPattern, email)) {
-            redirectAttributes.addFlashAttribute("loginError", "メールアドレスが正しい形式ではありません");
-            return "redirect:/login";
-        }
-
-        //パスワードの未入力チェック
-        if (password == null || password.trim().isEmpty()) {
-            redirectAttributes.addFlashAttribute("loginError", "パスワードを入力してください");
-            return "redirect:/login";
-        }
-
-        //すべてのチェックをすり抜けたら本来の処理へフォワード
-        return "forward:/login";
     }
 
     //TOPページの表示
