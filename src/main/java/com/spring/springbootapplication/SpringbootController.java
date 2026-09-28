@@ -24,14 +24,14 @@ public class SpringbootController {
     @Autowired
     private UserRepository userRepository;
 
-    //新規登録画面の表示
+    // 新規登録画面の表示
     @GetMapping("/signin")
     public String showSignupPage(Model model) {
         model.addAttribute("springbootForm", new SignupForm());
         return "signin"; // templates/signin.html を表示
     }
 
-    //新規登録の処理
+    // 新規登録の処理
     @PostMapping("/register")
     public String registerUser(
         @Valid @ModelAttribute("springbootForm") SignupForm signupForm,
@@ -39,24 +39,28 @@ public class SpringbootController {
         Model model,
         HttpServletRequest request
     ) {
+        // メールアドレスの重複チェック
         if (userRepository.existsByEmail(signupForm.getEmail())){
             result.rejectValue("email", "error.email", "このメールアドレスは既に登録されています。");
         }
 
+        // バリデーションエラーがある場合は新規登録画面に戻る
         if (result.hasErrors()) {
             return "signin";
         }
 
+        // パスワードのハッシュ化（暗号化）
         String rawPassword = signupForm.getPassword();
         String hashedPassword = passwordEncoder.encode(rawPassword);
 
+        // ユーザー情報の保存
         User user = new User();
         user.setName(signupForm.getName());
         user.setEmail(signupForm.getEmail());
         user.setPassword(hashedPassword);
         userRepository.save(user);
 
-        //自動ログイン
+        // 自動ログイン
         try {
             request.login(signupForm.getEmail(), rawPassword);
         } catch (ServletException e) {
