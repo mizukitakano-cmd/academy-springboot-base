@@ -6,6 +6,7 @@ import java.util.regex.Pattern;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.web.context.HttpSessionSecurityContextRepository;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -30,7 +31,8 @@ public class LoginController {
     public String loginValidation(
         @RequestParam("username") String email,
         @RequestParam("password") String password,
-        RedirectAttributes redirectAttributes
+        RedirectAttributes redirectAttributes,
+        jakarta.servlet.http.HttpServletRequest request
     ) {
         //アドレス未入力のチェック
         if (email == null || email.trim().isEmpty()) {
@@ -51,13 +53,26 @@ public class LoginController {
             return "redirect:/login";
         }
 
-        try {
+try {
+            org.springframework.security.core.userdetails.UserDetails userDetails =
+                new org.springframework.security.core.userdetails.User(email, "", Collections.emptyList());
+
+            // 2. 認証トークンを作成
             Authentication authentication = new UsernamePasswordAuthenticationToken(
-                email,
+                userDetails,
                 null,
                 Collections.emptyList()
             );
+            
+            // 3. セキュリティコンテキストに設定
             SecurityContextHolder.getContext().setAuthentication(authentication);
+
+            // 4. 【最重要】作成した認証情報を、ブラウザのセッションに明示的に永続化（保存）します
+            request.getSession().setAttribute(
+                HttpSessionSecurityContextRepository.SPRING_SECURITY_CONTEXT_KEY,
+                SecurityContextHolder.getContext()
+            );
+
         } catch (Exception e) {
             e.printStackTrace();
             return "redirect:/login";
@@ -68,7 +83,24 @@ public class LoginController {
 
     //TOPページの表示
     @GetMapping("/top")
-    public String showTopPage() {
+    public String showTopPage(
+        @org.springframework.security.core.annotation.AuthenticationPrincipal org.springframework.security.core.userdetails.UserDetails userDetails, 
+        Model model
+    ) {
+        if (userDetails != null) {
+            // ログイン中のユーザー名（メールアドレス）を画面
+            model.addAttribute("username", userDetails.getUsername());
+        } else {
+            // 万が一のゲスト表示用
+            model.addAttribute("username", "ゲスト");
+        }
+
+        // 自己紹介や画像は空で良い
+        model.addAttribute("introduction", "");
+        model.addAttribute("imagePath", null);
+
+        // チャートはこの時点では未実装で良い。データは送らず枠だけ表示
+
         return "top";
     }
 }

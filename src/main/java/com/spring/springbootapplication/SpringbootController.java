@@ -1,6 +1,8 @@
 package com.spring.springbootapplication;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -69,5 +71,22 @@ public class SpringbootController {
         }
 
         return "redirect:/top";
+    }
+
+    // プロフィール画面の表示
+    @GetMapping("/profile")
+    public String showProfilePage(@AuthenticationPrincipal UserDetails userDetails, Model model) {
+        if (userDetails != null) {
+            model.addAttribute("username", userDetails.getUsername());
+        } else {
+            model.addAttribute("username", "ゲスト");
+        }
+
+        // 要件：自己紹介や画像は空、チャートは未実装で良いため、受け皿用の空データを設定
+        model.addAttribute("introduction", ""); // 自己紹介（空）
+        model.addAttribute("imagePath", null);     // 画像（空）
+
+        // templates/profile-edit.html を表示
+        return "profile-edit";
     }
 }
