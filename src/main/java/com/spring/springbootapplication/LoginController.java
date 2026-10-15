@@ -17,6 +17,8 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 @Controller
 public class LoginController {
 
+    @org.springframework.beans.factory.annotation.Autowired private UserRepository userRepository;
+
     //ログイン画面を表示する
     @GetMapping("/login")
     public String showLoginPage(@RequestParam(value = "error", required = false) String error, Model model) {
@@ -84,22 +86,27 @@ try {
     //TOPページの表示
     @GetMapping("/top")
     public String showTopPage(
-        @org.springframework.security.core.annotation.AuthenticationPrincipal org.springframework.security.core.userdetails.UserDetails userDetails, 
+        @org.springframework.security.core.annotation.AuthenticationPrincipal org.springframework.security.core.userdetails.UserDetails userDetails,
         Model model
     ) {
         if (userDetails != null) {
-            // ログイン中のユーザー名（メールアドレス）を画面
-            model.addAttribute("username", userDetails.getUsername());
+            // ログイン中のメールアドレスを使って、DBからユーザーの氏名を取得
+            String email = userDetails.getUsername();
+            com.spring.springbootapplication.User user = userRepository.findByEmail(email).orElse(null);
+            
+            if (user != null) {
+                // 画面の ${username} にメールアドレスではなく「氏名」をセットします
+                model.addAttribute("username", user.getName());
+            } else {
+                model.addAttribute("username", email);
+            }
         } else {
-            // 万が一のゲスト表示用
             model.addAttribute("username", "ゲスト");
         }
 
         // 自己紹介や画像は空で良い
         model.addAttribute("introduction", "");
         model.addAttribute("imagePath", null);
-
-        // チャートはこの時点では未実装で良い。データは送らず枠だけ表示
 
         return "top";
     }

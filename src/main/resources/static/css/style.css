@@ -280,10 +280,11 @@ body {
     top: 250px;
     left: 86px;
     width: 194px;
-    height: 57px;
+    height: 120px;
     display: flex;
+    flex-direction: column;
     align-items: center;
-    gap: 12px;
+    justify-content: space-between;
 }
 
 .top-username {
@@ -296,17 +297,18 @@ body {
 }
 
 .top-avatar-blank {
-    width: 80px;
-    height: 80px;
-    background-color: #FFF;
+    width: 100px;
+    height: 100px;
+    background-color: #D9D9D9;
     border-radius: 50%;
     position: absolute;
-    top: -90px;
+    top: -110px;
     left: 50%;
     transform: translateX(-50%);
     display: flex;
     align-items: center;
     justify-content: center;
+    overflow: hidden;
 }
 
 /* ★自己紹介の中身 */
