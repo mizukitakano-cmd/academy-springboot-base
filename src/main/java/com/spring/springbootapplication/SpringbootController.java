@@ -74,19 +74,70 @@ public class SpringbootController {
     }
 
     // プロフィール画面の表示
-    @GetMapping("/profile")
-    public String showProfilePage(@AuthenticationPrincipal UserDetails userDetails, Model model) {
+    @GetMapping("/profile-edit")
+    public String showProfileEditPage(@AuthenticationPrincipal UserDetails userDetails, Model model) {
         if (userDetails != null) {
-            model.addAttribute("username", userDetails.getUsername());
+            //「氏名」を表示するために、DBから取得
+            String email = userDetails.getUsername();
+            User user = userRepository.findByEmail(email).orElse(null);
+            if (user != null) {
+                model.addAttribute("username", user.getName());
+            } else {
+                model.addAttribute("username", email);
+            }
         } else {
             model.addAttribute("username", "ゲスト");
         }
 
-        // 要件：自己紹介や画像は空、チャートは未実装で良いため、受け皿用の空データを設定
-        model.addAttribute("introduction", ""); // 自己紹介（空）
-        model.addAttribute("imagePath", null);     // 画像（空）
+        // 自己紹介や画像は空で良いため、受け皿用の空データを設定
+        model.addAttribute("introduction", "");
+        model.addAttribute("imagePath", null);
+
+        // バリデーションエラーを正常に動かすため、空のフォームオブジェクトを引き渡す
+        model.addAttribute("profileForm", new com.spring.springbootapplication.form.ProfileForm());
 
         // templates/profile-edit.html を表示
         return "profile-edit";
+    }
+
+    @PostMapping("/profile-edit")
+    public String executeProfileEdit(
+        @org.springframework.validation.annotation.Validated @org.springframework.web.bind.annotation.ModelAttribute("profileForm") com.spring.springbootapplication.form.ProfileForm profileForm,
+        org.springframework.validation.BindingResult bindingResult,
+        @org.springframework.security.core.annotation.AuthenticationPrincipal org.springframework.security.core.userdetails.UserDetails userDetails,
+        Model model
+    ) {
+        // バリデーションチェック（空チェック、50〜200文字チェック）
+        if (bindingResult.hasErrors()) {
+            // エラーがある場合は、名前情報を再度セットして、編集画面（profile-edit）に戻す
+            if (userDetails != null) {
+                String email = userDetails.getUsername();
+                User user = userRepository.findByEmail(email).orElse(null);
+                if (user != null) {
+                    model.addAttribute("username", user.getName());
+                }
+            }
+            return "profile-edit"; // エラーメッセージを伴って画面に戻る
+        }
+
+        // 2. チェックOKなら、DBに正しく保存する
+        if (userDetails != null) {
+            String email = userDetails.getUsername();
+            User user = userRepository.findByEmail(email).orElse(null);
+            
+            if (user != null) {
+                // フォームに入力された自己紹介テキストをDBのユーザーレコードにセット
+                user.setIntroduction(profileForm.getIntroduction());
+                
+                // ※画像ファイルの保存処理
+                // if (!profileForm.getImageFile().isEmpty()) { ... }
+
+                // データベースを更新
+                userRepository.save(user);
+            }
+        }
+
+        // 登録後はTOP画面に遷移する
+        return "redirect:/top";
     }
 }

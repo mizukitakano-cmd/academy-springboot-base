@@ -13,14 +13,13 @@ body {
     background-color: #FFF;
     color: #1b5678;
     width: 100vw;
-    height: 100vh;
+    min-height: 100vh;
     overflow-x: hidden;
     display: flex;
     flex-direction: column;
 }
 
 .main-container {
-    flex-grow: 1;
     display: flex;
     flex-direction: column;
     justify-content: flex-start;
@@ -39,7 +38,6 @@ body {
     margin-top: 0;
     margin-bottom: 24px;
 }
-
 
 
 /*Header Styles*/
@@ -138,45 +136,6 @@ body {
 
 
 
-/* --- profile-edit.html用スタイル --- */
-
-.main-container .page-title {
-    width: 400px;
-    left: 520px;
-}
-
-.form-textarea {
-    width: 100%;
-    border: none;
-    border-bottom: 1px solid #666;
-    padding: 10px 0;
-    font-size: 16px;
-    color: #666;
-    background-color: transparent;
-    outline: none;
-    resize: none;
-    font-family: 'Roboto';
-    line-height: 1.5;
-}
-
-.form-textarea:focus {
-    border-bottom: 2px solid #1b5678;
-}
-
-.form-hint {
-    font-size: 12px;
-    color: #000;
-    margin-top: 6px;
-    text-align: left;
-}
-
-.form-file {
-    font-size: 14px;
-    color: #666;
-    padding-top: 8px;
-}
-
-
 /*Button Styles*/
 
 .button-group {
@@ -235,6 +194,7 @@ body {
     display: flex;
     align-items: center;
     justify-content: center;
+    margin-top: auto;
 }
 
 .footer-logo {
@@ -242,16 +202,21 @@ body {
     font-weight: 400;
 }
 
+
+
 /* top.html Styles */
-/* 全体：1440×742、top: 120px、パディング上下80px  */
 
 .top-main {
-    width: 1440px;
-    height: 1450px;
+    width: 100%;
+    max-width: 1440px;
+    height: 1531px;
+    display: flex;
+    flex-direction: column;
     position: relative;
     margin: 0 auto;
     padding: 80px 0;
     box-sizing: border-box;
+    align-self: stretch;
 }
 
 /* wrapper（960×582） */
@@ -297,8 +262,8 @@ body {
 }
 
 .top-avatar-blank {
-    width: 100px;
-    height: 100px;
+    width: 360px;
+    height: 360px;
     background-color: #D9D9D9;
     border-radius: 50%;
     position: absolute;
@@ -534,7 +499,227 @@ body {
     left: 1049px;
 }
 
-body {
-    height: auto;
-    min-height: 1500px;
+/* profile-edit.html */
+.profile-edit-main {
+    width: 100%;
+    max-width: 960px;
+    margin: 0 auto;
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    box-sizing: border-box;
+    padding: 80px 0 60px 0;
+}
+
+/* 「自己紹介を編集する」見出し */
+.edit-title {
+    font-family: 'Roboto', sans-serif;
+    font-weight: 400;
+    font-size: 36px;
+    line-height: 1.33;
+    text-align: center;
+    color: rgba(0, 0, 0, 0.75);
+    margin-top: 0;
+    margin-bottom: 48px;
+}
+
+/* 2. 編集画面専用のフォーム枠 */
+.profile-edit-main form {
+    width: 960px;
+    height: 342px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0;
+    margin: 48px auto 0 auto;
+}
+
+/*  自己紹介文入力欄全体 */
+.edit-intro-group {
+    width: 480px;
+    height: 145px;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    gap: 3px;
+    margin-bottom: 0;
+    position: relative;
+}
+
+/* 自己紹介文 ラベル */
+.edit-label {
+    display: block;
+    font-family: 'Roboto', sans-serif;
+    font-weight: 400;
+    font-size: 12px;
+    line-height: 12px;
+    letter-spacing: 0.15px;
+    color: #0000008A;
+    text-align: left;
+}
+
+/* 入力部分 */
+.edit-input-text {
+    width: 100%;
+    height: 95px;
+    border: none;
+    outline: none;
+    background: transparent;
+    padding: 8px 0;
+    box-sizing: border-box;
+    resize: none;
+    font-family: 'Roboto', sans-serif;
+    font-weight: 400;
+    font-size: 18px;
+    line-height: 19px;
+    letter-spacing: 0.15px;
+    color: #000;
+}
+
+/* ライン（下線） */
+.edit-underline {
+    width: 100%;
+    height: 1px;
+    background-color: #000;
+    margin: 0;
+}
+
+/* ヘルプテキスト */
+.edit-helper-text {
+    font-family: 'Roboto', sans-serif;
+    font-weight: 400;
+    font-size: 12px;
+    line-height: 20px;
+    letter-spacing: 0.4px;
+    color: #0000008A;
+    margin-top: 3px;
+}
+
+/* エラー用メッセージ */
+.edit-intro-group .error-msg {
+    font-family: 'Roboto', sans-serif;
+    font-weight: 400;
+    font-size: 12px;
+    line-height: 20px;
+    letter-spacing: 0.4px;
+    color: red;
+    margin-top: 3px;
+}
+
+/* アバター画像エリア全体 */
+.edit-avatar-group {
+    width: 480px;
+    height: 48px; /* ★Figma指定：高さ48px */
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    gap: 10px;
+    margin-bottom: 0;
+}
+
+/* アバター画像 ラベル */
+.edit-avatar-label {
+    display: block;
+    font-family: 'Roboto', sans-serif;
+    font-weight: 400;
+    font-size: 12px;
+    line-height: 12px;
+    letter-spacing: 0.4px;
+    color: #0000008A;
+    text-align: left;
+}
+
+/* 「画像ファイルを添付する」部分全体：avatar-input */
+.edit-avatar-input-zone {
+    width: 100%;
+    height: 32px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    position: relative;
+}
+
+/* グレーのボタン：gray-btn */
+.edit-gray-btn {
+    width: 202px;
+    height: 32px;
+    background-color: #E0E0E0;
+    color: #000;
+    border: none;
+    border-radius: 4px;
+    padding: 8px 24px;
+    cursor: pointer;
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+    box-sizing: border-box;
+}
+
+/* ボタンの中のフォント */
+.edit-gray-btn span {
+    display: inline-block;
+    width: 154px;
+    height: 16px;
+    font-family: 'Roboto', sans-serif;
+    font-weight: 400;
+    font-size: 14px;
+    line-height: 100%;
+    text-align: center;
+    white-space: nowrap;
+}
+
+/* 透明なファイル選択ボタン */
+.edit-avatar-input-zone input[type="file"] {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 202px;
+    height: 32px;
+    opacity: 0;
+    cursor: pointer;
+    z-index: 2;
+}
+
+/* 右端の装飾アイコン枠 */
+.edit-adornment-end {
+    width: 23px;
+    height: 24px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: 'Roboto', sans-serif;
+    font-weight: 400;
+    font-size: 16px;
+    color: #fff;
+}
+
+/*「自己紹介を確定する」ボタン */
+.profile-edit-btn {
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+    width: 322px;
+    height: 53px;
+    background-color: #1b5678;
+    color: #FFF;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    box-sizing: border-box;
+    align-self: center;
+}
+
+/* ボタンの中のフォント */
+.profile-edit-btn span {
+    display: inline-block;
+    width: 162px;
+    height: 21px;
+    font-family: 'Roboto', sans-serif;
+    font-weight: 400;
+    font-size: 18px;
+    line-height: 100%;
+    text-align: center;
+    white-space: nowrap;
 }
