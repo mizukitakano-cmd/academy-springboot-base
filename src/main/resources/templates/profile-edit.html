@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html xmlns:th="http://thymeleaf.org" lang="ja">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Profile edit</title>
+        <link th:href="@{/css/style.css}" rel="stylesheet">
+    </head>
+    <body>
+
+        <header class="header">
+            <div class="logo">My Portfolio</div>
+            
+            <!-- ログアウトボタン -->
+            <form th:action="@{/logout}" method="post" style="margin: 0; display: inline;">
+                <button type="submit" class="header-btn" style="border: none; cursor: pointer;">ログアウト</button>
+            </form>
+        </header>
+
+        <main class="profile-edit-main">
+
+            <h1 class="edit-title">自己紹介を編集する</h1>
+
+                <form th:action="@{/profile-edit}" th:object="${profileForm}" method="post" enctype="multipart/form-data">
+        
+
+                <div class="edit-intro-group">
+                    <label class="edit-label">自己紹介文</label>
+                    <textarea th:field="*{introduction}" class="edit-input-text"></textarea>
+
+                    <!-- アバター欄用の共通アンダーライン-->
+                    <div class="edit-underline"></div>
+                    
+                    <p th:if="${#fields.hasErrors('introduction')}" th:errors="*{introduction}" class="error-msg"></p>
+                    <p th:unless="${#fields.hasErrors('introduction')}" class="edit-helper-text">50文字以上、200文字以下で入力して下さい。</p>
+                </div>
+
+                <div class="edit-avatar-group">
+                    <label class="edit-avatar-label">アバター画像</label>
+                    
+                    <div class="edit-avatar-input-zone">
+                        <input type="file" th:field="*{imageFile}" id="avatarFileInput" />
+                        <button type="button" class="edit-gray-btn">
+                            <span>ファイルを添付する</span>
+                        </button>
+                        <div class="edit-adornment-end">&#8942;</div>
+                    </div>
+                    
+
+                </div>
+
+                <!-- 選択されたファイル名を表示する場所 -->
+                <div id="fileNameDisplay" style="color: #1b5678; font-weight: bold; font-size: 12px; margin-top: -24px; min-height: 20px;"></div>
+
+                <!-- 「自己紹介を確定する」ボタン-->
+                <button type="submit" class="profile-edit-btn">
+                    <span>自己紹介文を確定する</span>
+                </button>
+            </form>
+        </main>
+
+        <footer class="footer">
+            <div class="footer-logo">portfolio site</div>
+        </footer>
+
+        <script th:inline="javascript">
+            // 1. ファイルを選択するボタンと、名前を表示する場所を見つける
+            const fileInput = document.getElementById('avatarFileInput');
+            const nameDisplay = document.getElementById('fileNameDisplay');
+
+            // 2. ファイルが選択された瞬間に動く処理を設定
+            fileInput.addEventListener('change', function() {
+                // 選択されたファイルがあるか確認
+                if (this.files && this.files.length > 0) {
+                    const fileName = this.files[0].name; // ファイル名を取得
+                    
+                    // ★要件達成：画面上の指定した枠の中に、ファイル名をテキストとして書き込み
+                    nameDisplay.textContent = "選択されたファイル: " + fileName;
+                } else {
+                    nameDisplay.textContent = ""; // キャンセルされたら消す
+                }
+            });
+        </script>
+    </body>
+</html>

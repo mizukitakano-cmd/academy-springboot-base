@@ -1,0 +1,725 @@
+/*Common Styles*/
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Roboto', sans-serif;
+}
+
+body {
+    margin: 0;
+    padding: 0;
+    background-color: #FFF;
+    color: #1b5678;
+    width: 100vw;
+    min-height: 100vh;
+    overflow-x: hidden;
+    display: flex;
+    flex-direction: column;
+}
+
+.main-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: center;
+    padding: 80px 40px 60px;
+    margin: 0 auto;
+    width: 100%;
+}
+
+.page-title {
+    font-size: 36px;
+    font-weight: 400;
+    line-height: 1.33;
+    color: rgba(0, 0, 0, 0.75);
+    text-align: center;
+    margin-top: 0;
+    margin-bottom: 24px;
+}
+
+
+/*Header Styles*/
+
+.header {
+    width: 100%;
+    height: 120px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: #1b5678;
+    color: #FFF;
+    box-sizing: border-box;
+    padding: 0 40px;
+}
+
+.logo {
+    font-size: 36px;
+    font-weight: bold;
+}
+
+.logo2 {
+    font-size: 36px;
+    font-weight: bold;
+    font-weight: 700;
+    width: 100%;
+    text-align: center;
+}
+
+.header-btn {
+    width: 152px;
+    height: 53px;
+    color: #000;
+    background-color: #FFF;
+    font-size: 18px;
+    text-decoration: none;
+    border-radius: 4px;
+    font-weight: normal;
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+}
+
+
+/*Form Styles*/
+
+.signup-form,
+.login-form {
+    width: 480px;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    background-color: #FFF;
+    border: none;
+    padding: 0;
+}
+
+.form-group {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 32px;
+}
+
+.form-group:last-of-type {
+    margin-bottom: 0;
+}
+
+.form-label {
+    display: block;
+    font-size: 14px;
+    color: #666;
+    margin-bottom: 8px;
+    text-align: left;
+}
+
+.form-group input {
+    width: 100%;
+    padding: 12px 0;
+    background-color: transparent;
+    color: #000;
+    border: none;
+    border-bottom: 1px solid #ccc;
+    font-size: 16px;
+    font-weight: 400;
+    line-height:1.5;
+    cursor: pointer;
+    box-sizing: border-box;
+}
+
+.error-msg {
+    color: red;
+    font-size: 14px;
+    margin-top: 8px;
+}
+
+
+
+/*Button Styles*/
+
+.button-group {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+    gap: 48px;
+    margin-top: 16px;
+}
+
+.submit-btn {
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+    width: 232px;
+    height: 53px;
+    background-color: #1b5678;
+    color: #FFF;
+    border: none;
+    border-radius: 4px;
+    font-size: 16px;
+    font-weight: normal;
+    text-decoration: none;
+    cursor: pointer;
+    box-sizing: border-box;
+    flex-shrink: 0;
+}
+
+.sub-btn {
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+    width: 232px;
+    height: 53px;
+    background-color: #1b5678;
+    color: #FFF;
+    border: none;
+    border-radius: 4px;
+    font-size: 16px;
+    font-weight: normal;
+    text-decoration: none;
+    cursor: pointer;
+    box-sizing: border-box;
+    flex-shrink: 0;
+}
+
+
+/*Footer Styles*/
+
+.footer {
+    width: 100%;
+    height: 40px;
+    background-color: #1b5678;
+    color: #FFF;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-top: auto;
+}
+
+.footer-logo {
+    font-size: 18px;
+    font-weight: 400;
+}
+
+
+
+/* top.html Styles */
+
+.top-main {
+    width: 100%;
+    max-width: 1440px;
+    height: 1531px;
+    display: flex;
+    flex-direction: column;
+    position: relative;
+    margin: 0 auto;
+    padding: 80px 0;
+    box-sizing: border-box;
+    align-self: stretch;
+}
+
+/* wrapper（960×582） */
+.wrapper {
+    width: 960px;
+    height: 582px;
+    position: relative;
+    margin: 0 auto;
+}
+
+/* profile（960×360）*/
+.profile {
+    width: 960px;
+    height: 360px;
+    position: absolute;
+    top: 0;
+    left: 0;
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+}
+
+/* アカデミー花子エリア */
+.profile-user-zone {
+    position: absolute;
+    top: 250px;
+    left: 86px;
+    width: 194px;
+    height: 120px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.top-username {
+    font-family: 'Roboto', sans-serif;
+    font-weight: 400;
+    font-size: 20px;
+    line-height: 20px;
+    color: #000;
+    margin: 0;
+}
+
+.top-avatar-blank {
+    width: 360px;
+    height: 360px;
+    background-color: #D9D9D9;
+    border-radius: 50%;
+    position: absolute;
+    top: -110px;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+}
+
+/* ★自己紹介の中身 */
+.content {
+    position: absolute;
+    top: 52px;
+    left: 440px;
+    width: 520px;
+    height: 256px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
+}
+
+/* 自己紹介タイトルゾーン */
+.top-intro-title-zone {
+    width: 240px;
+    height: 58px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
+    margin-bottom: 16px;
+}
+
+/* タイトルテキスト「自己紹介」 */
+.top-intro-title-text {
+    width: 144px;
+    height: 42px;
+    font-weight: 700;
+    font-size: 36px;
+    line-height: 100%;
+    color: #000;
+    text-align: left;
+    margin: 0;
+    align-self: flex-start;
+}
+
+/* タイトルアンダーライン */
+.top-intro-title-line {
+    width: 240px;
+    height: 0;
+    border-bottom: 2px solid rgba(0, 0, 0, 0.5);
+    margin-top: auto;
+}
+
+/* 自己紹介文（*/
+.top-intro-text {
+    width: 520px;
+    min-height: 81px;
+    margin: 0 0 16px 0;
+    color: #000;
+    font-size: 14px;
+    line-height: 1.5;
+    text-align: left;
+}
+
+/* 「自己紹介を編集する」ボタン */
+.top-large-blue-btn {
+    position: absolute;
+    top: 203px;
+    width: 242px;
+    height: 53px;
+    background-color: #1b5678;
+    color: #FFF;
+    border: none;
+    border-radius: 4px;
+    padding: 16px 40px;
+    cursor: pointer;
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+    box-sizing: border-box;
+}
+
+/* ボタン内テキスト */
+.top-large-blue-btn span {
+    display: inline-block;
+    width: 162px;
+    height: 21px;
+    font-weight: 400;
+    font-size: 18px;
+    line-height: 100%;
+    text-align: center;
+    white-space: nowrap;
+}
+
+
+/* Chart*/
+.Chart {
+    position: absolute;
+    top: 757px;
+    left: 193px;
+    width: 1081px;
+    height: 532.5px;
+}
+
+/* チャート自体のエリア（960×331） */
+.top-chart-zone {
+    width: 960px;
+    height: 331px;
+    position: relative;
+    margin: 0 auto;
+}
+
+/* Frame*/
+.Frame {
+    position: absolute;
+    top: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 400px;
+    height: 151px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
+}
+
+/* 学習チャートエリア タイトルゾーン */
+.top-chart-title-zone {
+    width: 400px;
+    height: 58px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
+    margin-bottom: 16px;
+}
+
+/* 「学習チャート」タイトル文字 */
+.top-chart-title-text {
+    width: 216px;
+    height: 42px;
+    font-weight: 700;
+    font-size: 36px;
+    line-height: 100%;
+    color: #000;
+    text-align: center;
+    margin: 0;
+}
+
+/* タイトルアンダーライン */
+.top-chart-title-line {
+    width: 400px;
+    height: 0;
+    border-bottom: 2px solid rgba(0, 0, 0, 0.5);
+    margin-top: auto;
+}
+
+/* 「編集する」ボタン */
+.top-chart-edit-btn {
+    width: 152px;
+    height: 53px;
+    background-color: #1b5678;
+    color: #FFF;
+    border: none;
+    border-radius: 4px;
+    padding: 16px 40px;
+    cursor: pointer;
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+    box-sizing: border-box;
+}
+
+/* ボタン内テキスト*/
+.top-chart-edit-btn span {
+    display: inline-block;
+    width: 72px;
+    height: 21px;
+    font-weight: 400;
+    font-size: 18px;
+    line-height: 100%;
+    text-align: center;
+    white-space: nowrap;
+}
+
+/*  Rectangle */
+.top-chart-placeholder-box {
+    position: absolute;
+    top: 180px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 100px;
+    height: 100px;
+    background-color: #D9D9D9;
+}
+
+/* 月ラベル */
+.top-label-common {
+    position: absolute;
+    font-family: 'Roboto', sans-serif;
+    font-weight: 400;
+    font-size: 14px;
+    line-height: 20px;
+    color: #000;
+    opacity: 1;
+}
+
+/* 先々月 */
+.label-sansengetsu {
+    width: 51px;
+    height: 27px;
+    top: 1371px;
+    left: 388px;
+}
+
+/* 先月 */
+.label-sengetsu {
+    width: 29px;
+    height: 27px;
+    top: 1371px;
+    left: 719px;
+}
+
+/* 今月 */
+.label-kongetsu {
+    width: 29px;
+    height: 27px;
+    top: 1371px;
+    left: 1049px;
+}
+
+/* profile-edit.html */
+.profile-edit-main {
+    width: 100%;
+    max-width: 960px;
+    margin: 0 auto;
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    box-sizing: border-box;
+    padding: 80px 0 60px 0;
+}
+
+/* 「自己紹介を編集する」見出し */
+.edit-title {
+    font-family: 'Roboto', sans-serif;
+    font-weight: 400;
+    font-size: 36px;
+    line-height: 1.33;
+    text-align: center;
+    color: rgba(0, 0, 0, 0.75);
+    margin-top: 0;
+    margin-bottom: 48px;
+}
+
+/* 2. 編集画面専用のフォーム枠 */
+.profile-edit-main form {
+    width: 960px;
+    height: 342px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0;
+    margin: 48px auto 0 auto;
+}
+
+/*  自己紹介文入力欄全体 */
+.edit-intro-group {
+    width: 480px;
+    height: 145px;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    gap: 3px;
+    margin-bottom: 0;
+    position: relative;
+}
+
+/* 自己紹介文 ラベル */
+.edit-label {
+    display: block;
+    font-family: 'Roboto', sans-serif;
+    font-weight: 400;
+    font-size: 12px;
+    line-height: 12px;
+    letter-spacing: 0.15px;
+    color: #0000008A;
+    text-align: left;
+}
+
+/* 入力部分 */
+.edit-input-text {
+    width: 100%;
+    height: 95px;
+    border: none;
+    outline: none;
+    background: transparent;
+    padding: 8px 0;
+    box-sizing: border-box;
+    resize: none;
+    font-family: 'Roboto', sans-serif;
+    font-weight: 400;
+    font-size: 18px;
+    line-height: 19px;
+    letter-spacing: 0.15px;
+    color: #000;
+}
+
+/* ライン（下線） */
+.edit-underline {
+    width: 100%;
+    height: 1px;
+    background-color: #000;
+    margin: 0;
+}
+
+/* ヘルプテキスト */
+.edit-helper-text {
+    font-family: 'Roboto', sans-serif;
+    font-weight: 400;
+    font-size: 12px;
+    line-height: 20px;
+    letter-spacing: 0.4px;
+    color: #0000008A;
+    margin-top: 3px;
+}
+
+/* エラー用メッセージ */
+.edit-intro-group .error-msg {
+    font-family: 'Roboto', sans-serif;
+    font-weight: 400;
+    font-size: 12px;
+    line-height: 20px;
+    letter-spacing: 0.4px;
+    color: red;
+    margin-top: 3px;
+}
+
+/* アバター画像エリア全体 */
+.edit-avatar-group {
+    width: 480px;
+    height: 48px; /* ★Figma指定：高さ48px */
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    gap: 10px;
+    margin-bottom: 0;
+}
+
+/* アバター画像 ラベル */
+.edit-avatar-label {
+    display: block;
+    font-family: 'Roboto', sans-serif;
+    font-weight: 400;
+    font-size: 12px;
+    line-height: 12px;
+    letter-spacing: 0.4px;
+    color: #0000008A;
+    text-align: left;
+}
+
+/* 「画像ファイルを添付する」部分全体：avatar-input */
+.edit-avatar-input-zone {
+    width: 100%;
+    height: 32px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    position: relative;
+}
+
+/* グレーのボタン：gray-btn */
+.edit-gray-btn {
+    width: 202px;
+    height: 32px;
+    background-color: #E0E0E0;
+    color: #000;
+    border: none;
+    border-radius: 4px;
+    padding: 8px 24px;
+    cursor: pointer;
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+    box-sizing: border-box;
+}
+
+/* ボタンの中のフォント */
+.edit-gray-btn span {
+    display: inline-block;
+    width: 154px;
+    height: 16px;
+    font-family: 'Roboto', sans-serif;
+    font-weight: 400;
+    font-size: 14px;
+    line-height: 100%;
+    text-align: center;
+    white-space: nowrap;
+}
+
+/* 透明なファイル選択ボタン */
+.edit-avatar-input-zone input[type="file"] {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 202px;
+    height: 32px;
+    opacity: 0;
+    cursor: pointer;
+    z-index: 2;
+}
+
+/* 右端の装飾アイコン枠 */
+.edit-adornment-end {
+    width: 23px;
+    height: 24px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: 'Roboto', sans-serif;
+    font-weight: 400;
+    font-size: 16px;
+    color: #fff;
+}
+
+/*「自己紹介を確定する」ボタン */
+.profile-edit-btn {
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+    width: 322px;
+    height: 53px;
+    background-color: #1b5678;
+    color: #FFF;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    box-sizing: border-box;
+    align-self: center;
+}
+
+/* ボタンの中のフォント */
+.profile-edit-btn span {
+    display: inline-block;
+    width: 162px;
+    height: 21px;
+    font-family: 'Roboto', sans-serif;
+    font-weight: 400;
+    font-size: 18px;
+    line-height: 100%;
+    text-align: center;
+    white-space: nowrap;
+}
