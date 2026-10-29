@@ -2,10 +2,12 @@ package com.spring.springbootapplication;
 
 import java.util.Collections;
 import java.util.regex.Pattern;
+import java.util.Collections;
 
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.web.context.HttpSessionSecurityContextRepository;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -13,6 +15,10 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 
 @Controller
 public class LoginController {
@@ -55,8 +61,8 @@ public class LoginController {
             return "redirect:/login";
         }
 
-try {
-            org.springframework.security.core.userdetails.UserDetails userDetails =
+        try {
+            UserDetails userDetails =
                 new org.springframework.security.core.userdetails.User(email, "", Collections.emptyList());
 
             // 2. 認証トークンを作成
@@ -69,7 +75,7 @@ try {
             // 3. セキュリティコンテキストに設定
             SecurityContextHolder.getContext().setAuthentication(authentication);
 
-            // 4. 【最重要】作成した認証情報を、ブラウザのセッションに明示的に永続化（保存）します
+            // 4. 【最重要】作成した認証情報を, ブラウザのセッションに明示的に永続化（保存）します
             request.getSession().setAttribute(
                 HttpSessionSecurityContextRepository.SPRING_SECURITY_CONTEXT_KEY,
                 SecurityContextHolder.getContext()
@@ -86,17 +92,30 @@ try {
     //TOPページの表示
     @GetMapping("/top")
     public String showTopPage(
-        @org.springframework.security.core.annotation.AuthenticationPrincipal org.springframework.security.core.userdetails.UserDetails userDetails,
+        @org.springframework.security.core.annotation.AuthenticationPrincipal UserDetails userDetails,
         Model model
     ) {
+        // 初期値としての自己紹介文を入れておく変数を、最初は空で用意
+        String dbIntroduction = "";
+        String finalImagePath = null;
+
         if (userDetails != null) {
             // ログイン中のメールアドレスを使って、DBからユーザーの氏名を取得
             String email = userDetails.getUsername();
-            com.spring.springbootapplication.User user = userRepository.findByEmail(email).orElse(null);
+            User user = userRepository.findByEmail(email).orElse(null);
             
             if (user != null) {
-                // 画面の ${username} にメールアドレスではなく「氏名」をセットします
+                // 画面の ${username} にメールアドレスではなく「氏名」をセット
                 model.addAttribute("username", user.getName());
+                
+                // DBから本物の自己紹介文を確実に取得してキープします。
+                if (user.getIntroduction() != null) {
+                    dbIntroduction = user.getIntroduction();
+                }
+
+                if (user.getImagePath() != null) {
+                    finalImagePath = user.getImagePath();
+                }
             } else {
                 model.addAttribute("username", email);
             }
@@ -104,9 +123,9 @@ try {
             model.addAttribute("username", "ゲスト");
         }
 
-        // 自己紹介や画像は空で良い
-        model.addAttribute("introduction", "");
-        model.addAttribute("imagePath", null);
+        // 3. 綺麗に解きほぐした本物のデータを top.html へストレートに引き渡します！
+        model.addAttribute("introduction", dbIntroduction);
+        model.addAttribute("imagePath", finalImagePath);
 
         return "top";
     }

@@ -20,9 +20,7 @@ public class SecurityConfig {
         http
             // アクセス権限設定
             .authorizeHttpRequests(authorize -> authorize
-                // 未ログインでもアクセス可能なのはログイン・新規登録画面と静的リソース（CSS/JS）のみ
-                .requestMatchers("/login", "/signin", "/signup", "/register", "/css/**", "/js/**", "/login-validation").permitAll()
-                // それ以外のすべてのURLはログイン認証を必須
+                .requestMatchers("/login", "/signin", "/signup", "/register", "/top", "/css/**", "/js/**", "/login-validation").permitAll()
                 .anyRequest().authenticated()
             )
 
