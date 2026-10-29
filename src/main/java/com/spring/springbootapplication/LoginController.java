@@ -1,8 +1,13 @@
 package com.spring.springbootapplication;
 
+import java.util.Collections;
 import java.util.regex.Pattern;
 import java.util.Collections;
 
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.web.context.HttpSessionSecurityContextRepository;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -16,6 +21,8 @@ import org.springframework.security.core.context.SecurityContextHolder;
 
 @Controller
 public class LoginController {
+
+    @org.springframework.beans.factory.annotation.Autowired private UserRepository userRepository;
 
     //ログイン画面を表示する
     @GetMapping("/login")
@@ -31,7 +38,8 @@ public class LoginController {
     public String loginValidation(
         @RequestParam("username") String email,
         @RequestParam("password") String password,
-        RedirectAttributes redirectAttributes
+        RedirectAttributes redirectAttributes,
+        jakarta.servlet.http.HttpServletRequest request
     ) {
         //アドレス未入力のチェック
         if (email == null || email.trim().isEmpty()) {
@@ -69,7 +77,29 @@ public class LoginController {
 
     //TOPページの表示
     @GetMapping("/top")
-    public String showTopPage() {
+    public String showTopPage(
+        @org.springframework.security.core.annotation.AuthenticationPrincipal org.springframework.security.core.userdetails.UserDetails userDetails,
+        Model model
+    ) {
+        if (userDetails != null) {
+            // ログイン中のメールアドレスを使って、DBからユーザーの氏名を取得
+            String email = userDetails.getUsername();
+            com.spring.springbootapplication.User user = userRepository.findByEmail(email).orElse(null);
+            
+            if (user != null) {
+                // 画面の ${username} にメールアドレスではなく「氏名」をセットします
+                model.addAttribute("username", user.getName());
+            } else {
+                model.addAttribute("username", email);
+            }
+        } else {
+            model.addAttribute("username", "ゲスト");
+        }
+
+        // 自己紹介や画像は空で良い
+        model.addAttribute("introduction", "");
+        model.addAttribute("imagePath", null);
+
         return "top";
     }
 }
