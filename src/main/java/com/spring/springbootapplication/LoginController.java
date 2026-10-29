@@ -2,6 +2,7 @@ package com.spring.springbootapplication;
 
 import java.util.Collections;
 import java.util.regex.Pattern;
+import java.util.Collections;
 
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -13,6 +14,10 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 
 @Controller
 public class LoginController {
@@ -55,26 +60,13 @@ public class LoginController {
             return "redirect:/login";
         }
 
-try {
-            org.springframework.security.core.userdetails.UserDetails userDetails =
-                new org.springframework.security.core.userdetails.User(email, "", Collections.emptyList());
-
-            // 2. 認証トークンを作成
+        try {
             Authentication authentication = new UsernamePasswordAuthenticationToken(
-                userDetails,
+                email,
                 null,
                 Collections.emptyList()
             );
-            
-            // 3. セキュリティコンテキストに設定
             SecurityContextHolder.getContext().setAuthentication(authentication);
-
-            // 4. 【最重要】作成した認証情報を、ブラウザのセッションに明示的に永続化（保存）します
-            request.getSession().setAttribute(
-                HttpSessionSecurityContextRepository.SPRING_SECURITY_CONTEXT_KEY,
-                SecurityContextHolder.getContext()
-            );
-
         } catch (Exception e) {
             e.printStackTrace();
             return "redirect:/login";

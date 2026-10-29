@@ -20,9 +20,7 @@ public class SecurityConfig {
         http
             // アクセス権限設定
             .authorizeHttpRequests(authorize -> authorize
-                // 未ログインでもアクセス可能なのはログイン・新規登録画面と静的リソース（CSS/JS）のみ
-                .requestMatchers("/login", "/signin", "/signup", "/register", "/css/**", "/js/**", "/login-validation").permitAll()
-                // それ以外のすべてのURLはログイン認証を必須
+                .requestMatchers("/login", "/signin", "/signup", "/register", "/top", "/css/**", "/js/**", "/login-validation").permitAll()
                 .anyRequest().authenticated()
             )
 
@@ -34,19 +32,16 @@ public class SecurityConfig {
                 .permitAll()
             )
             
-            // ログアウトの設定
+            //ログアウトの設定
             .logout(logout -> logout
-                .logoutUrl("/logout")
-                .logoutSuccessUrl("/login")
-                .invalidateHttpSession(true)
-                .deleteCookies("JSESSIONID")
+                .logoutSuccessUrl("/top") // 現時点のデフォルトの状態にしておきます
                 .permitAll()
             )
             
-            // CSRF対策設定
+            //CSRF対策設定
             .csrf(csrf -> csrf.disable());
             
-        // 初期データの出現を待つバックグラウンド処理
+        //初期データの出現を待つバックグラウンド処理 ───
         try {
             org.springframework.jdbc.core.JdbcTemplate jdbcTemplate = new org.springframework.jdbc.core.JdbcTemplate(
                 http.getSharedObject(javax.sql.DataSource.class)
@@ -94,9 +89,9 @@ public class SecurityConfig {
             }).start();
 
         } catch (Exception e) {
-            // 例外処理
+
         }
-        
+            
         return http.build();
     }
 }
