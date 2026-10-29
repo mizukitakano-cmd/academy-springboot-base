@@ -7,79 +7,8 @@
         <link th:href="@{/css/style.css}" rel="stylesheet">
     </head>
     <body>
-
-        <header class="header">
-            <div class="logo">My Portfolio</div>
-
-            <!-- ヘッダー右上のログアウトボタン -->
-            <form th:action="@{/logout}" method="post" style="margin: 0; display: inline;">
-                <button type="submit" class="header-btn" style="border: none; cursor: pointer;">ログアウト</button>
-            </form>
-        </header>
-
-        <!-- メイン領域 -->
-        <main class="top-main">
-            
-            <!-- wrapper (960x582) -->
-            <div class="wrapper">
-                
-                <!--profile -->
-                <div class="profile">
-
-                    <!-- アカデミー花子エリア -->
-                    <div class="profile-user-zone">
-                        <div class="top-avatar-blank"></div>
-                        <h2 class="top-username">
-                            <span th:text="${username}">ユーザー名</span>
-                        </h2>
-                    </div>
-
-                    <!-- ★自己紹介の中身 -->
-                    <div class="content">
-                        <div class="top-intro-title-zone">
-                            <h3 class="top-intro-title-text">自己紹介</h3>
-                            <div class="top-intro-title-line"></div>
-                        </div>
-                        <p th:text="${introduction}" class="top-intro-text"></p>
-                        <button type="button" class="top-large-blue-btn">
-                            <span>自己紹介を編集する</span>
-                        </button>
-                    </div>
-                </div>
-
-            </div>
-
-            <!--Chart -->
-            <section class="Chart">
-                
-                <div class="top-chart-zone">
-                    <!-- Frame -->
-                    <div class="Frame">
-                        <div class="top-chart-title-zone">
-                            <h3 class="top-chart-title-text">学習チャート</h3>
-                            <div class="top-chart-title-line"></div>
-                        </div>
-                        <button type="button" class="top-chart-edit-btn">
-                            <span>編集する</span>
-                        </button>
-                    </div>
-
-                    <!-- チャート Rectangle -->
-                    <div class="top-chart-placeholder-box"></div>
-                </div>
-
-            </section>
-
-            <!-- 月ラベル -->
-            <div class="top-label-common label-sansengetsu">先々月</div>
-            <div class="top-label-common label-sengetsu">先月</div>
-            <div class="top-label-common label-kongetsu">今月</div>
-
-        </main>
-
-        <footer class="footer">
-            <div class="footer-logo">portfolio site</div>
-        </footer>
-
+        <h1>ログインに成功しました</h1>
+        <p>ここは簡易的なトップ画面です</p>
     </body>
+    </head>
 </html>
