@@ -120,20 +120,25 @@ public class SpringbootController {
         @org.springframework.security.core.annotation.AuthenticationPrincipal org.springframework.security.core.userdetails.UserDetails userDetails,
         Model model
     ) {
-        // バリデーションチェック（空チェック、50〜200文字チェック）
+        // バリデーションエラー（入力チェック）に引っかかった場合の処理
         if (bindingResult.hasErrors()) {
-            // エラーがある場合は、名前情報を再度セットして、編集画面（profile-edit）に戻す
             if (userDetails != null) {
                 String email = userDetails.getUsername();
                 User user = userRepository.findByEmail(email).orElse(null);
+                
                 if (user != null) {
+                    // 画面の ${username} に本人の氏名をセット
                     model.addAttribute("username", user.getName());
+                    
+                    // エラーで画面に戻る時も、DBから本人の保存済みの自己紹介と画像を確実に渡す（ユーザー指定）
+                    model.addAttribute("introduction", user.getIntroduction());
+                    model.addAttribute("imagePath", user.getImagePath());
                 }
             }
-            return "profile-edit"; // エラーメッセージを伴って画面に戻る
+            return "profile-edit"; // エラーメッセージを伴って安全に編集画面に戻る
         }
 
-        // 2. チェックOKなら、DBに正しく保存する
+        // 2. チェックOK（エラーなし）なら、DBに正しく保存する
         if (userDetails != null) {
             String email = userDetails.getUsername();
             User user = userRepository.findByEmail(email).orElse(null);
@@ -154,21 +159,20 @@ public class SpringbootController {
                             folder.mkdirs();
                         }
         
-                //選んだ画像データを物理ファイルとしてフォルダに書き出す
-                java.io.File uploadFile = new java.io.File(uploadDir + java.io.File.separator + fileName);
-                profileForm.getImageFile().transferTo(uploadFile);
+                        // 選んだ画像データを物理ファイルとしてフォルダに書き出す
+                        java.io.File uploadFile = new java.io.File(uploadDir + java.io.File.separator + fileName);
+                        profileForm.getImageFile().transferTo(uploadFile);
         
-            } catch (java.io.IOException e) {
-                e.printStackTrace();
-            }
-            
-        }
+                    } catch (java.io.IOException e) {
+                        e.printStackTrace();
+                    }
+                }
                 // データベースを更新
                 userRepository.save(user);
             }
         }
 
-        // 登録後はTOP画面に遷移する
+        // 登録後はTOP画面に正常に遷移する
         return "redirect:/top";
     }
 }
