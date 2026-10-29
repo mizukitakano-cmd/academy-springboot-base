@@ -28,7 +28,10 @@
 
                     <!-- アカデミー花子エリア -->
                     <div class="profile-user-zone">
-                        <div class="top-avatar-blank"></div>
+                        <div class="top-avatar-blank">
+                            <!-- 画像データ（imagePath）がある時は表示し、空っぽの時はグレーの丸にする -->
+                            <img th:if="${imagePath != null}" th:src="@{/images/{name}(name=${imagePath})}" style="width: 100%; height: 100%; object-fit: cover;">
+</div>
                         <h2 class="top-username">
                             <span th:text="${username}">ユーザー名</span>
                         </h2>
@@ -41,7 +44,7 @@
                             <div class="top-intro-title-line"></div>
                         </div>
                         <p th:text="${introduction}" class="top-intro-text"></p>
-                        <button type="button" class="top-large-blue-btn">
+                        <button type="button" class="top-large-blue-btn" th:onclick="|location.href='@{/profile-edit}'|">
                             <span>自己紹介を編集する</span>
                         </button>
                     </div>

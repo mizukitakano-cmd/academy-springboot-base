@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 
+import com.spring.springbootapplication.form.ProfileForm;
 import com.spring.springbootapplication.form.SignupForm;
 
 import jakarta.servlet.ServletException;
@@ -76,12 +77,22 @@ public class SpringbootController {
     // プロフィール画面の表示
     @GetMapping("/profile-edit")
     public String showProfileEditPage(@AuthenticationPrincipal UserDetails userDetails, Model model) {
+
+        ProfileForm profileForm = new ProfileForm();
+
+        // 初期値としての自己紹介文を入れておく変数を、最初は空で用意
+        String dbIntroduction = "";
+
         if (userDetails != null) {
             //「氏名」を表示するために、DBから取得
             String email = userDetails.getUsername();
             User user = userRepository.findByEmail(email).orElse(null);
+            
             if (user != null) {
                 model.addAttribute("username", user.getName());
+                if (user.getIntroduction() != null) {
+                    dbIntroduction = user.getIntroduction();
+                }
             } else {
                 model.addAttribute("username", email);
             }
@@ -89,16 +100,18 @@ public class SpringbootController {
             model.addAttribute("username", "ゲスト");
         }
 
-        // 自己紹介や画像は空で良いため、受け皿用の空データを設定
-        model.addAttribute("introduction", "");
+        // キープしていた自己紹介文を、入力欄と画面表示にそれぞれセット
+        profileForm.setIntroduction(dbIntroduction);
+        model.addAttribute("introduction", dbIntroduction);
         model.addAttribute("imagePath", null);
 
-        // バリデーションエラーを正常に動かすため、空のフォームオブジェクトを引き渡す
-        model.addAttribute("profileForm", new com.spring.springbootapplication.form.ProfileForm());
+        // データが詰まった状態のフォームをHTMLへ引き渡す
+        model.addAttribute("profileForm", profileForm);
 
         // templates/profile-edit.html を表示
         return "profile-edit";
     }
+
 
     @PostMapping("/profile-edit")
     public String executeProfileEdit(
@@ -126,12 +139,30 @@ public class SpringbootController {
             User user = userRepository.findByEmail(email).orElse(null);
             
             if (user != null) {
-                // フォームに入力された自己紹介テキストをDBのユーザーレコードにセット
                 user.setIntroduction(profileForm.getIntroduction());
                 
-                // ※画像ファイルの保存処理
-                // if (!profileForm.getImageFile().isEmpty()) { ... }
+                // 画像ファイルを保存するサーバー内の物理的な「置き場所（フォルダ）」を決定
+                if (profileForm.getImageFile() != null && !profileForm.getImageFile().isEmpty()) {
+                    try {
+                        String fileName = profileForm.getImageFile().getOriginalFilename();
+                        user.setImagePath(fileName);
 
+                        // 画像を格納するプロジェクト内の static/images/ フォルダの絶対パスを取得
+                        String uploadDir = new java.io.File("src/main/resources/static/images/").getAbsolutePath();
+                        java.io.File folder = new java.io.File(uploadDir);
+                        if (!folder.exists()) {
+                            folder.mkdirs();
+                        }
+        
+                //選んだ画像データを物理ファイルとしてフォルダに書き出す
+                java.io.File uploadFile = new java.io.File(uploadDir + java.io.File.separator + fileName);
+                profileForm.getImageFile().transferTo(uploadFile);
+        
+            } catch (java.io.IOException e) {
+                e.printStackTrace();
+            }
+            
+        }
                 // データベースを更新
                 userRepository.save(user);
             }
