@@ -1,6 +1,14 @@
 package com.spring.springbootapplication;
 
+import java.io.IOException;
+import java.util.Map;
+
+import jakarta.servlet.ServletException;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.validation.Valid;
+
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -14,9 +22,8 @@ import org.springframework.web.bind.annotation.PostMapping;
 import com.spring.springbootapplication.form.ProfileForm;
 import com.spring.springbootapplication.form.SignupForm;
 
-import jakarta.servlet.ServletException;
-import jakarta.servlet.http.HttpServletRequest;
-import jakarta.validation.Valid;
+import com.cloudinary.Cloudinary;
+import com.cloudinary.utils.ObjectUtils;
 
 @Controller
 public class SpringbootController {
@@ -27,6 +34,15 @@ public class SpringbootController {
     @Autowired
     private UserRepository userRepository;
 
+    @Value("${cloudinary.cloud-name}")
+    private String cloudName;
+
+    @Value("${cloudinary.api-key}")
+    private String apiKey;
+
+    @Value("${cloudinary.api-secret}")
+    private String apiSecret;
+    
     // 新規登録画面の表示
     @GetMapping("/signin")
     public String showSignupPage(Model model) {
@@ -120,25 +136,22 @@ public class SpringbootController {
         @org.springframework.security.core.annotation.AuthenticationPrincipal org.springframework.security.core.userdetails.UserDetails userDetails,
         Model model
     ) {
-        // バリデーションエラー（入力チェック）に引っかかった場合の処理
+        // バリデーションエラーに引っかかった場合の処理
         if (bindingResult.hasErrors()) {
             if (userDetails != null) {
                 String email = userDetails.getUsername();
                 User user = userRepository.findByEmail(email).orElse(null);
                 
                 if (user != null) {
-                    // 画面の ${username} に本人の氏名をセット
                     model.addAttribute("username", user.getName());
-                    
-                    // エラーで画面に戻る時も、DBから本人の保存済みの自己紹介と画像を確実に渡す（ユーザー指定）
                     model.addAttribute("introduction", user.getIntroduction());
                     model.addAttribute("imagePath", user.getImagePath());
                 }
             }
-            return "profile-edit"; // エラーメッセージを伴って安全に編集画面に戻る
+            return "profile-edit";
         }
 
-        // 2. チェックOK（エラーなし）なら、DBに正しく保存する
+        // チェックOKなら、DBに正しく保存する
         if (userDetails != null) {
             String email = userDetails.getUsername();
             User user = userRepository.findByEmail(email).orElse(null);
@@ -146,22 +159,28 @@ public class SpringbootController {
             if (user != null) {
                 user.setIntroduction(profileForm.getIntroduction());
                 
-                // 画像ファイルを保存するサーバー内の物理的な「置き場所（フォルダ）」を決定
+                // 画像ファイルが選択されている場合の処理
                 if (profileForm.getImageFile() != null && !profileForm.getImageFile().isEmpty()) {
                     try {
-                        String fileName = profileForm.getImageFile().getOriginalFilename();
-                        user.setImagePath(fileName);
+                        // 1. Cloudinaryのクライアントを初期化
+                        Cloudinary cloudinary = new Cloudinary(ObjectUtils.asMap(
+                            "cloud_name", cloudName,
+                            "api_key", apiKey,
+                            "api_secret", apiSecret,
+                            "secure", true
+                        ));
 
-                        // 画像を格納するプロジェクト内の static/images/ フォルダの絶対パスを取得
-                        String uploadDir = new java.io.File("src/main/resources/static/images/").getAbsolutePath();
-                        java.io.File folder = new java.io.File(uploadDir);
-                        if (!folder.exists()) {
-                            folder.mkdirs();
-                        }
-        
-                        // 選んだ画像データを物理ファイルとしてフォルダに書き出す
-                        java.io.File uploadFile = new java.io.File(uploadDir + java.io.File.separator + fileName);
-                        profileForm.getImageFile().transferTo(uploadFile);
+                        // 2. 画像ファイルをCloudinaryにアップロード
+                        Map uploadResult = cloudinary.uploader().upload(
+                            profileForm.getImageFile().getBytes(),
+                            ObjectUtils.emptyMap()
+                        );
+
+                        // 3. アップロード成功後に返ってくる「画像のフルURL」を取得
+                        String cloudinaryUrl = (String) uploadResult.get("secure_url");
+                        
+                        // 4. DBにはファイル名ではなく、画像のインターネットURLを保存する
+                        user.setImagePath(cloudinaryUrl);
         
                     } catch (java.io.IOException e) {
                         e.printStackTrace();

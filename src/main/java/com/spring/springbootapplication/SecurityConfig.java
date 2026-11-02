@@ -41,10 +41,17 @@ public class SecurityConfig {
                 .permitAll()
             )
             
+            // 【修正】Content Security Policyの設定（res. を追加してCloudinaryからの画像配信を完全に許可）
+            .headers(headers -> headers
+                .contentSecurityPolicy(csp -> csp
+                    .policyDirectives("img-src 'self' data: https://res.cloudinary.com;")
+                )
+            )
+            
             // CSRF対策設定
             .csrf(csrf -> csrf.disable());
             
-        // 初期データの出現を待つバックグラウンド処理
+        /*
         try {
             org.springframework.jdbc.core.JdbcTemplate jdbcTemplate = new org.springframework.jdbc.core.JdbcTemplate(
                 http.getSharedObject(javax.sql.DataSource.class)
@@ -72,7 +79,6 @@ public class SecurityConfig {
                     }
                 }
 
-                // データが出揃ったら、安全にハッシュ化を実行
                 if (isReady) {
                     try {
                         jdbcTemplate.query("SELECT email, password FROM users WHERE email = 'hokusai@fugaku.com'", (rs, rowNum) -> {
@@ -94,6 +100,7 @@ public class SecurityConfig {
         } catch (Exception e) {
             // 例外処理
         }
+        */
         
         return http.build();
     }

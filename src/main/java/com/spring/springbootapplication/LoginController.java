@@ -95,37 +95,45 @@ public class LoginController {
         @org.springframework.security.core.annotation.AuthenticationPrincipal UserDetails userDetails,
         Model model
     ) {
-        // 初期値としての自己紹介文を入れておく変数を、最初は空で用意
+        // 初期値としての自己紹介文と画像URLを用意
         String dbIntroduction = "";
         String finalImagePath = null;
 
         if (userDetails != null) {
-            // ログイン中のメールアドレスを使って、DBからユーザーの氏名を取得
             String email = userDetails.getUsername();
+            // DBからユーザーを探す（なければ null）
             User user = userRepository.findByEmail(email).orElse(null);
             
-            if (user != null) {
-                // 画面の ${username} にメールアドレスではなく「氏名」をセット
-                model.addAttribute("username", user.getName());
+            if (user == null) {
+                // 未知のアドレスの場合、DBの必須項目をすべて埋めて自動保存する
+                user = new User();
+                user.setEmail(email);
+                user.setName("新規ユーザー（" + email + "）");
+                user.setPassword("dummy_password");
+                user.setIntroduction("");
                 
-                // DBから本物の自己紹介文を確実に取得してキープします。
-                if (user.getIntroduction() != null) {
-                    dbIntroduction = user.getIntroduction();
-                }
-
-                if (user.getImagePath() != null) {
-                    finalImagePath = user.getImagePath();
-                }
-            } else {
-                model.addAttribute("username", email);
+                // 必須項目が埋まっていれば、saveしても500エラーになりません
+                user = userRepository.save(user);
             }
+
+            // 本物のユーザー、またはその場で作られた擬似ユーザーからデータを取得
+            model.addAttribute("username", user.getName());
+            
+            if (user.getIntroduction() != null) {
+                dbIntroduction = user.getIntroduction();
+            }
+
+            if (user.getImagePath() != null) {
+                finalImagePath = user.getImagePath();
+            }
+            
         } else {
             model.addAttribute("username", "ゲスト");
         }
 
-        // 3. 綺麗に解きほぐした本物のデータを top.html へストレートに引き渡します！
+        // top.html へに引き渡す
         model.addAttribute("introduction", dbIntroduction);
-        model.addAttribute("imagePath", finalImagePath);
+        model.addAttribute("imagePath", finalImagePath); // これで確実にHTMLへ届きます
 
         return "top";
     }
