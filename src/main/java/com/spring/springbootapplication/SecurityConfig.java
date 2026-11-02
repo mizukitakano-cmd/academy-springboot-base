@@ -32,16 +32,19 @@ public class SecurityConfig {
                 .permitAll()
             )
             
-            //ログアウトの設定
+            // ログアウトの設定
             .logout(logout -> logout
-                .logoutSuccessUrl("/top") // 現時点のデフォルトの状態にしておきます
+                .logoutUrl("/logout")
+                .logoutSuccessUrl("/login")
+                .invalidateHttpSession(true)
+                .deleteCookies("JSESSIONID")
                 .permitAll()
             )
             
-            //CSRF対策設定
+            // CSRF対策設定
             .csrf(csrf -> csrf.disable());
             
-        //初期データの出現を待つバックグラウンド処理 ───
+        // 初期データの出現を待つバックグラウンド処理
         try {
             org.springframework.jdbc.core.JdbcTemplate jdbcTemplate = new org.springframework.jdbc.core.JdbcTemplate(
                 http.getSharedObject(javax.sql.DataSource.class)
@@ -89,9 +92,9 @@ public class SecurityConfig {
             }).start();
 
         } catch (Exception e) {
-
+            // 例外処理
         }
-            
+        
         return http.build();
     }
 }

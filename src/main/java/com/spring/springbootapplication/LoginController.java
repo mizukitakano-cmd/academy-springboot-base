@@ -61,12 +61,25 @@ public class LoginController {
         }
 
         try {
+            UserDetails userDetails =
+                new org.springframework.security.core.userdetails.User(email, "", Collections.emptyList());
+
+            // 2. 認証トークンを作成
             Authentication authentication = new UsernamePasswordAuthenticationToken(
-                email,
+                userDetails,
                 null,
                 Collections.emptyList()
             );
+            
+            // 3. セキュリティコンテキストに設定
             SecurityContextHolder.getContext().setAuthentication(authentication);
+
+            // 4. 【最重要】作成した認証情報を, ブラウザのセッションに明示的に永続化（保存）します
+            request.getSession().setAttribute(
+                HttpSessionSecurityContextRepository.SPRING_SECURITY_CONTEXT_KEY,
+                SecurityContextHolder.getContext()
+            );
+
         } catch (Exception e) {
             e.printStackTrace();
             return "redirect:/login";

@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 
+import com.spring.springbootapplication.form.ProfileForm;
 import com.spring.springbootapplication.form.SignupForm;
 
 import jakarta.servlet.ServletException;
