@@ -7,7 +7,6 @@ import java.util.Collections;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.web.context.HttpSessionSecurityContextRepository;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -92,30 +91,17 @@ public class LoginController {
     //TOPページの表示
     @GetMapping("/top")
     public String showTopPage(
-        @org.springframework.security.core.annotation.AuthenticationPrincipal UserDetails userDetails,
+        @org.springframework.security.core.annotation.AuthenticationPrincipal org.springframework.security.core.userdetails.UserDetails userDetails,
         Model model
     ) {
-        // 初期値としての自己紹介文を入れておく変数を、最初は空で用意
-        String dbIntroduction = "";
-        String finalImagePath = null;
-
         if (userDetails != null) {
             // ログイン中のメールアドレスを使って、DBからユーザーの氏名を取得
             String email = userDetails.getUsername();
-            User user = userRepository.findByEmail(email).orElse(null);
+            com.spring.springbootapplication.User user = userRepository.findByEmail(email).orElse(null);
             
             if (user != null) {
-                // 画面の ${username} にメールアドレスではなく「氏名」をセット
+                // 画面の ${username} にメールアドレスではなく「氏名」をセットします
                 model.addAttribute("username", user.getName());
-                
-                // DBから本物の自己紹介文を確実に取得してキープします。
-                if (user.getIntroduction() != null) {
-                    dbIntroduction = user.getIntroduction();
-                }
-
-                if (user.getImagePath() != null) {
-                    finalImagePath = user.getImagePath();
-                }
             } else {
                 model.addAttribute("username", email);
             }
@@ -123,9 +109,9 @@ public class LoginController {
             model.addAttribute("username", "ゲスト");
         }
 
-        // 3. 綺麗に解きほぐした本物のデータを top.html へストレートに引き渡します！
-        model.addAttribute("introduction", dbIntroduction);
-        model.addAttribute("imagePath", finalImagePath);
+        // 自己紹介や画像は空で良い
+        model.addAttribute("introduction", "");
+        model.addAttribute("imagePath", null);
 
         return "top";
     }
