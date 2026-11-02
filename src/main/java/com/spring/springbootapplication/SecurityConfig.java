@@ -51,7 +51,7 @@ public class SecurityConfig {
             // CSRF対策設定
             .csrf(csrf -> csrf.disable());
             
-        
+        /*
         try {
             org.springframework.jdbc.core.JdbcTemplate jdbcTemplate = new org.springframework.jdbc.core.JdbcTemplate(
                 http.getSharedObject(javax.sql.DataSource.class)
@@ -98,9 +98,9 @@ public class SecurityConfig {
             }).start();
 
         } catch (Exception e) {
-            // 例外処理
+            
         }
-        
+        */
         
         return http.build();
     }
