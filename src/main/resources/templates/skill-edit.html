@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html xmlns:th="http://thymeleaf.org" lang="ja">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Skill edit</title>
+        <link th:href="@{/css/style.css}" rel="stylesheet">
+    </head>
+    <body>
+
+        <!-- 共通ヘッダー -->
+        <header class="header">
+            <div class="logo">My Portfolio</div>
+            
+            <!-- ログアウトボタン -->
+            <form th:action="@{/logout}" method="post" style="margin: 0; display: inline;">
+                <button type="submit" class="header-btn" style="border: none; cursor: pointer;">ログアウト</button>
+            </form>
+        </header>
+
+        <!-- メインコンテンツ -->
+        <main class="skill-edit-main">
+
+            <!-- プルダウンによる月選択 -->
+            <form th:action="@{/skill-edit}" method="get" class="skill-month-form">
+                <div class="skill-select-wrapper">
+                    <select name="month" onchange="this.form.submit()" class="skill-month-select">
+                        <option th:each="entry : ${monthOptions}"
+                                th:value="${entry.key}"
+                                th:text="${entry.value}"
+                                th:selected="${entry.key == selectedMonth}">
+                        </option>
+                    </select>
+                </div>
+            </form>
+
+            <!-- バックエンド -->
+            <section class="category">
+                <div class="category-content">
+                    <div class="category-header">
+                        <h2 class="category-title">バックエンド</h2>
+                        <a th:href="@{/skill-new}" class="skill-add-btn">項目を追加する</a>
+                    </div>
+                    <div class="skill-table-wrapper">
+                        <table class="skill-table">
+                            <thead>
+                                <tr>
+                                    <th class="col-name">項目名</th>
+                                    <th class="col-time">学習時間</th>
+                                    <th class="col-action"></th>
+                                    <th class="col-delete"></th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr th:each="item : ${backendItems}">
+                                    <td th:text="${item.name}">Ruby</td>
+                                    <td>
+                                        <input type="number" th:value="${item.studyTime}" class="skill-time-input" min="0">
+                                    </td>
+                                    <td>
+                                        <button type="button" class="skill-save-btn">学習時間を保存する</button>
+                                    </td>
+                                    <td>
+                                        <button type="button" class="skill-delete-btn">削除する</button>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </section>
+
+            <!-- フロントエンド -->
+            <section class="category">
+                <div class="category-content">
+                    <div class="category-header">
+                        <h2 class="category-title">フロントエンド</h2>
+                        <a th:href="@{/skill-new}" class="skill-add-btn">項目を追加する</a>
+                    </div>
+                    <div class="skill-table-wrapper">
+                        <table class="skill-table">
+                            <thead>
+                                <tr>
+                                    <th class="col-name">項目名</th>
+                                    <th class="col-time">学習時間</th>
+                                    <th class="col-action"></th>
+                                    <th class="col-delete"></th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr th:each="item : ${frontendItems}">
+                                    <td th:text="${item.name}">HTML</td>
+                                    <td>
+                                        <input type="number" th:value="${item.studyTime}" class="skill-time-input" min="0">
+                                    </td>
+                                    <td>
+                                        <button type="button" class="skill-save-btn">学習時間を保存する</button>
+                                    </td>
+                                    <td>
+                                        <button type="button" class="skill-delete-btn">削除する</button>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </section>
+
+            <!-- インフラ -->
+            <section class="category">
+                <div class="category-content">
+                    <div class="category-header">
+                        <h2 class="category-title">インフラ</h2>
+                        <a th:href="@{/skill-new}" class="skill-add-btn">項目を追加する</a>
+                    </div>
+                    <div class="skill-table-wrapper">
+                        <table class="skill-table">
+                            <thead>
+                                <tr>
+                                    <th class="col-name">項目名</th>
+                                    <th class="col-time">学習時間</th>
+                                    <th class="col-action"></th>
+                                    <th class="col-delete"></th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr th:each="item : ${infraItems}">
+                                    <td th:text="${item.name}">AWS</td>
+                                    <td>
+                                        <input type="number" th:value="${item.studyTime}" class="skill-time-input" min="0">
+                                    </td>
+                                    <td>
+                                        <button type="button" class="skill-save-btn">学習時間を保存する</button>
+                                    </td>
+                                    <td>
+                                        <button type="button" class="skill-delete-btn">削除する</button>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </section>
+
+        </main>
+
+        <!-- 共通フッター -->
+        <footer class="footer">
+            <div class="footer-logo">portfolio site</div>
+        </footer>
+
+    </body>
+</html>
