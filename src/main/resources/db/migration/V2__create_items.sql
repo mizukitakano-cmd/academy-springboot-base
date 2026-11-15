@@ -25,6 +25,18 @@ CREATE TABLE items (
     FOREIGN KEY (user_id) REFERENCES users(id)
 );
 
+-- 初期データ（2026年10月：1ヶ月前）
+INSERT INTO items (user_id, category, name, study_time, study_date) VALUES
+(1, 'バックエンド', 'MySQL', 45, '2026-10-01'),
+(1, 'フロントエンド', 'CSS', 25, '2026-10-01'),
+(1, 'インフラ', 'Heroku', 35, '2026-10-01');
+
+-- 初期データ（2026年9月：2ヶ月前）
+INSERT INTO items (user_id, category, name, study_time, study_date) VALUES
+(1, 'バックエンド', 'Java', 80, '2026-09-01'),
+(1, 'フロントエンド', 'JavaScript', 50, '2026-09-01'),
+(1, 'インフラ', 'Firebase', 20, '2026-09-01');
+
 -- 初期データ（2026年11月：当月）
 INSERT INTO items (user_id, category, name, study_time, study_date) VALUES
 (1, 'バックエンド', 'Ruby', 40, '2026-11-01'),
