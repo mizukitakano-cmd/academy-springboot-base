@@ -35,7 +35,7 @@ INSERT INTO items (user_id, category, name, study_time, study_date) VALUES
 INSERT INTO items (user_id, category, name, study_time, study_date) VALUES
 (1, 'バックエンド', 'Java', 80, '2026-09-01'),
 (1, 'フロントエンド', 'JavaScript', 50, '2026-09-01'),
-(1, 'インフラ', 'Firebase', 20, '2026-09-01');
+
 
 -- 初期データ（2026年11月：当月）
 INSERT INTO items (user_id, category, name, study_time, study_date) VALUES
