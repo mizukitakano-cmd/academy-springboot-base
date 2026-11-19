@@ -16,6 +16,9 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+
 @Controller
 public class ItemController {
 
@@ -80,5 +83,30 @@ public class ItemController {
         model.addAttribute("infraItems", infraItems);
 
         return "skill-edit";
+    }
+
+    @PostMapping("/skill-update")
+    public String updateStudyTime(
+        @RequestParam("id") Long id,
+        @RequestParam("studyTime") Integer studyTime,
+        @RequestParam("month") String month,
+        RedirectAttributes redirectAttributes
+    ) {
+        // IDで対象の学習項目をDBから検索
+        Item item = itemRepository.findById(id).orElse(null);
+
+        // データが存在し、学習時間が入力されていれば更新して保存する
+        if (item != null && studyTime != null) {
+            item.setStudyTime(studyTime);
+            itemRepository.save(item);
+
+            // リダイレクト先に「更新完了モーダルを表示する合図」と「更新した項目名・時間」を渡す
+            redirectAttributes.addFlashAttribute("isUpdated", true);
+            redirectAttributes.addFlashAttribute("updatedItemName", item.getName());
+            redirectAttributes.addFlashAttribute("updatedStudyTime", item.getStudyTime());
+        }
+
+        // 元々開いていた月（month）の一覧画面にリダイレクト
+        return "redirect:/skill-edit?month=" + month;
     }
 }

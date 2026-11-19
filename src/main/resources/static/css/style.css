@@ -1070,3 +1070,70 @@ body {
 .skill-delete-btn:hover {
     opacity: 0.9;
 }
+
+/* 編集完了モーダル：背景の半透明オーバーレイ */
+.modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+}
+
+/* モーダルの白い枠本体 */
+.modal-content {
+    width: 640px;
+    height: 240px;
+    background-color: #FFFFFF;
+    border-radius: 4px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 40px;
+    box-sizing: border-box;
+    padding: 40px;
+}
+
+/* 「{項目名}の学習時間を保存しました！」のテキスト */
+.modal-text {
+    margin: 0;
+    font-family: 'Roboto', sans-serif;
+    font-weight: 700;
+    font-size: 18px;
+    line-height: 100%;
+    letter-spacing: 0%;
+    color: #000000DE;
+    text-align: center;
+}
+
+/* 「編集ページに戻る」ボタン */
+.modal-back-btn {
+    width: 192px;
+    height: 48px;
+    padding: 16px 40px;
+    border-radius: 4px;
+    background-color: #1B5678;
+    box-sizing: border-box;
+    text-decoration: none;
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+    font-family: 'Roboto', sans-serif;
+    font-weight: 400;
+    font-size: 14px;
+    line-height: 100%;
+    letter-spacing: 0%;
+    color: #FFFFFF;
+    white-space: nowrap;
+    cursor: pointer;
+}
+
+.modal-back-btn:hover {
+    opacity: 0.9;
+}
