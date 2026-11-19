@@ -495,7 +495,6 @@ body {
     height: 27px;
     top: 1371px;
     left: 1049px;
-<<<<<<< HEAD
 }
 
 /* profile-edit.html */
@@ -722,6 +721,352 @@ body {
     text-align: center;
     white-space: nowrap;
 }
-=======
+
+
+/* skill-edit  */
+
+.skill-edit-main {
+    width: 100%;
+    max-width: 1440px;
+    min-height: 1599px;
+    margin: 0 auto;
+    padding-top: 40px;
+    padding-bottom: 40px;
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
 }
->>>>>>> main
+
+/* プルダウンを配置するフォーム枠 */
+.skill-month-form {
+    width: 100%;
+    max-width: 960px;
+    margin: 0 auto 24px auto;
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+}
+
+/* プルダウンの外枠 */
+.skill-select-wrapper {
+    position: relative;
+    width: 94px;
+    height: 44px;
+    flex-shrink: 0;
+    display: block;
+}
+
+/* 確実に手前に表示される黒色の▼ */
+.skill-select-wrapper::after {
+    content: "";
+    position: absolute;
+    right: 16px;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 0;
+    height: 0;
+    border-style: solid;
+    border-width: 9px 6.06px 0 6.06px;
+    border-color: #000000 transparent transparent transparent;
+    pointer-events: none;
+    z-index: 10;
+}
+
+/* 月選択プルダウン本体 */
+.skill-month-select {
+    width: 94px;
+    height: 44px;
+    border-radius: 4px;
+    border: 1px solid #DDDDDD;
+    background-color: #FFFFFF;
+    padding: 8px 32px 8px 16px;
+    box-sizing: border-box;
+    font-size: 16px;
+    font-weight: bold;
+    color: #333333;
+    cursor: pointer;
+
+    appearance: none;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+}
+
+/* カテゴリーの枠 */
+.category {
+    width: 100%;
+    max-width: 960px;
+    min-height: 436px;
+    border-radius: 8px;
+    border: 1px solid #00000080;
+    background-color: #FFFFFF;
+    padding: 40px;
+    box-sizing: border-box;
+    margin-bottom: 40px;
+    display: flex;
+    flex-direction: column;
+}
+
+/* 最後のカードの下余白をなくす */
+.category:last-of-type {
+    margin-bottom: 0;
+}
+
+/* カテゴリーカードの内側コンテンツ枠 */
+.category-content {
+    width: 100%;
+    max-width: 880px;
+    min-height: 356px;
+    display: flex;
+    flex-direction: column;
+    gap: 32px;
+}
+
+/* カテゴリー見出し */
+.category-title {
+    width: 240px;
+    height: 44px;
+    margin: 0;
+    padding-bottom: 16px;
+    box-sizing: border-box;
+    border-bottom: 2px solid #00000080;
+
+    /* 見出しのフォント設定 */
+    font-family: 'Roboto', sans-serif;
+    font-weight: 700;
+    font-size: 24px;
+    line-height: 28px;
+    letter-spacing: 0%;
+    color: #000000;
+}
+
+/* 見出しと「項目を追加する」ボタンを左右に並べる枠 */
+.category-header {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+/* 「項目を追加する」ボタン */
+.skill-add-btn {
+    width: 178px;
+    height: 48px;
+    border-radius: 4px;
+    padding: 16px 40px;
+    background-color: #1B5678;
+    box-sizing: border-box;
+    text-decoration: none;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    /* ボタン内の文字設定*/
+    color: #FFFFFF;
+    font-family: 'Roboto', sans-serif;
+    font-size: 14px;
+    font-weight: 400;
+    line-height: 1;
+    white-space: nowrap;
+    cursor: pointer;
+}
+
+/* ホバー時の少し優しい変化 */
+.skill-add-btn:hover {
+    opacity: 0.9;
+}
+
+/* 項目名と学習時間の全体の枠*/
+.skill-table-wrapper {
+    width: 100%;
+    max-width: 880px;
+    height: 276px;
+    border-radius: 4px;
+    background-color: #FFFFFF;
+    box-shadow:
+        0px 1px 5px 0px #0000001F,
+        0px 2px 2px 0px #00000024,
+        0px 3px 1px -2px #00000033;
+    overflow-y: auto;
+    overflow-x: hidden;
+    box-sizing: border-box;
+}
+
+/* テーブル本体 */
+.skill-table {
+    width: 100%;
+    table-layout: fixed;
+    border-collapse: collapse;
+    font-family: 'Roboto', sans-serif;
+}
+
+/* table-header（高さ56px + 下線1px = 57px） */
+.skill-table thead th {
+    position: sticky;
+    top: 0;
+    background-color: #FFFFFF;
+    z-index: 1;
+    height: 56px;
+    padding: 16px;
+    box-sizing: border-box;
+    text-align: left;
+    vertical-align: middle;
+    font-family: 'Roboto', sans-serif;
+    font-weight: 500;
+    font-size: 14px;
+    line-height: 24px;
+    letter-spacing: 0.15px;
+    color: #000000DE;
+    border-bottom: 1px solid #E0E0E0;
+}
+
+/* データ行（セル72px + 下線1px = 73px） */
+.skill-table tbody tr {
+    height: 73px;
+}
+
+.skill-table tbody td {
+    height: 72px;
+    padding: 0 16px;
+    box-sizing: border-box;
+    vertical-align: middle;
+    border-bottom: 1px solid #E0E0E0;
+}
+
+/* 1列目：「項目名」の幅と左余白（40px） */
+.col-name {
+    width: 27.27%;
+}
+
+.skill-table thead th.col-name,
+.skill-table tbody td:first-child {
+    padding-left: 40px;
+}
+
+/* 2列目：「学習時間」の幅 */
+.col-time {
+    width: 27.27%;
+}
+
+/* 3列目：保存ボタン列の幅 */
+.col-action {
+    width: 22.73%;
+}
+
+/* 4列目：削除ボタン列の幅 */
+.col-delete {
+    width: 22.73%;
+}
+
+.skill-table tbody td:first-child {
+    padding-left: 40px;
+    font-family: 'Roboto', sans-serif;
+    font-weight: 400;
+    font-size: 14px;
+    line-height: 143%; /* 約20px */
+    letter-spacing: 0.15px;
+    color: #000000DE;
+}
+
+/* 2列目：学習時間セルの余白（240px × 72px、内側余白16px） */
+.skill-table tbody td:nth-child(2) {
+    padding: 16px;
+}
+
+/* 学習時間の数値入力ボックス（160px × 40px） */
+.skill-time-input {
+    width: 160px;
+    height: 40px;
+    padding: 8px 12px;
+    box-sizing: border-box;
+    border: 1px solid #0000003B;
+    border-radius: 4px;
+    background-color: #FFFFFF;
+    font-family: 'Roboto', sans-serif;
+    font-weight: 400;
+    font-size: 14px;
+    line-height: 24px;
+    letter-spacing: 0.15px;
+    color: #000000DE;
+}
+
+/* フォーカス時の枠線（青く強調） */
+.skill-time-input:focus {
+    outline: none;
+    border-color: #1B5678;
+}
+
+/* 数値入力の上下矢印（スピンボタン）を常に表示して使いやすくする */
+.skill-time-input::-webkit-inner-spin-button,
+.skill-time-input::-webkit-outer-spin-button {
+    opacity: 1;
+    height: 34px;
+    cursor: pointer;
+}
+
+/* 3列目：「学習時間を保存する」ボタンのエリア全体（200px × 72px、内側余白16px） */
+.skill-table tbody td:nth-child(3) {
+    padding: 16px;
+}
+
+/* 「学習時間を保存する」ボタン本体（158px × 32px） */
+.skill-save-btn {
+    width: 158px;
+    height: 32px;
+    padding: 8px 16px;
+    box-sizing: border-box;
+    border-radius: 4px;
+    border: 1px solid #1B5678;
+    background-color: #FFFFFF;
+
+    /* ボタン内の文字スタイル・配置 */
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+    font-family: 'Roboto', sans-serif;
+    font-weight: 400;
+    font-size: 12px;
+    line-height: 1;
+    color: #1B5678;
+    white-space: nowrap;
+    cursor: pointer;
+}
+
+/* ホバー時の優しい変化 */
+.skill-save-btn:hover {
+    background-color: #1B56780D;
+}
+
+/* 4列目：「削除する」ボタンのエリア全体（右余白40pxで1列目の左余白と対称に揃える） */
+.skill-table tbody td:nth-child(4) {
+    padding: 16px 40px 16px 16px;
+    text-align: right;
+}
+
+/* 「削除する」ボタン本体（88px × 32px） */
+.skill-delete-btn {
+    width: 88px;
+    height: 32px;
+    padding: 8px 16px;
+    box-sizing: border-box;
+    border: none;
+    border-radius: 4px;
+    background-color: #EE6969;
+
+    /* ボタン内の文字スタイル・配置 */
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+    font-family: 'Roboto', sans-serif;
+    font-weight: 400;
+    font-size: 12px;
+    line-height: 1;
+    color: #FFFFFF;
+    white-space: nowrap;
+    cursor: pointer;
+}
+
+/* ホバー時の優しい変化 */
+.skill-delete-btn:hover {
+    opacity: 0.9;
+}
