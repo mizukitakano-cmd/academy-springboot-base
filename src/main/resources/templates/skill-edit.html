@@ -54,15 +54,22 @@
                             <tbody>
                                 <tr th:each="item : ${backendItems}">
                                     <td th:text="${item.name}">Ruby</td>
-                                    <td>
-                                        <input type="number" th:value="${item.studyTime}" class="skill-time-input" min="0">
-                                    </td>
-                                    <td>
-                                        <button type="button" class="skill-save-btn">学習時間を保存する</button>
-                                    </td>
-                                    <td>
-                                        <button type="button" class="skill-delete-btn">削除する</button>
-                                    </td>
+                                        <td>
+                                            <!-- 送信用のフォーム（非表示のidとmonthも一緒に送る） -->
+                                            <form th:id="'updateForm-' + ${item.id}" th:action="@{/skill-update}" method="post">
+                                                <input type="hidden" name="id" th:value="${item.id}">
+                                                <input type="hidden" name="month" th:value="${selectedMonth}">
+                                            </form>
+                                            <!-- form属性で上のformと紐づける -->
+                                                <input type="number" name="studyTime" th:value="${item.studyTime}" th:form="'updateForm-' + ${item.id}" class="skill-time-input" min="0" required>
+                                        </td>
+                                            <td>
+                                                <!-- type="submit" に変更し、form属性で紐づける -->
+                                                    <button type="submit" th:form="'updateForm-' + ${item.id}" class="skill-save-btn">学習時間を保存する</button>
+                                            </td>
+                                                <td>
+                                                    <button type="button" class="skill-delete-btn">削除する</button>
+                                                </td>
                                 </tr>
                             </tbody>
                         </table>
@@ -88,17 +95,24 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                <tr th:each="item : ${frontendItems}">
-                                    <td th:text="${item.name}">HTML</td>
-                                    <td>
-                                        <input type="number" th:value="${item.studyTime}" class="skill-time-input" min="0">
-                                    </td>
-                                    <td>
-                                        <button type="button" class="skill-save-btn">学習時間を保存する</button>
-                                    </td>
-                                    <td>
-                                        <button type="button" class="skill-delete-btn">削除する</button>
-                                    </td>
+                                <tr th:each="item : ${backendItems}">
+                                    <td th:text="${item.name}">Ruby</td>
+                                        <td>
+                                            <!-- 送信用のフォーム（非表示のidとmonthも一緒に送る） -->
+                                            <form th:id="'updateForm-' + ${item.id}" th:action="@{/skill-update}" method="post">
+                                                <input type="hidden" name="id" th:value="${item.id}">
+                                                <input type="hidden" name="month" th:value="${selectedMonth}">
+                                            </form>
+                                            <!-- form属性で上のformと紐づける -->
+                                                <input type="number" name="studyTime" th:value="${item.studyTime}" th:form="'updateForm-' + ${item.id}" class="skill-time-input" min="0" required>
+                                        </td>
+                                            <td>
+                                                <!-- type="submit" に変更し、form属性で紐づける -->
+                                                    <button type="submit" th:form="'updateForm-' + ${item.id}" class="skill-save-btn">学習時間を保存する</button>
+                                            </td>
+                                                <td>
+                                                    <button type="button" class="skill-delete-btn">削除する</button>
+                                                </td>
                                 </tr>
                             </tbody>
                         </table>
@@ -124,17 +138,24 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                <tr th:each="item : ${infraItems}">
-                                    <td th:text="${item.name}">AWS</td>
-                                    <td>
-                                        <input type="number" th:value="${item.studyTime}" class="skill-time-input" min="0">
-                                    </td>
-                                    <td>
-                                        <button type="button" class="skill-save-btn">学習時間を保存する</button>
-                                    </td>
-                                    <td>
-                                        <button type="button" class="skill-delete-btn">削除する</button>
-                                    </td>
+                                <tr th:each="item : ${backendItems}">
+                                    <td th:text="${item.name}">Ruby</td>
+                                        <td>
+                                            <!-- 送信用のフォーム（非表示のidとmonthも一緒に送る） -->
+                                            <form th:id="'updateForm-' + ${item.id}" th:action="@{/skill-update}" method="post">
+                                                <input type="hidden" name="id" th:value="${item.id}">
+                                                <input type="hidden" name="month" th:value="${selectedMonth}">
+                                            </form>
+                                            <!-- form属性で上のformと紐づける -->
+                                                <input type="number" name="studyTime" th:value="${item.studyTime}" th:form="'updateForm-' + ${item.id}" class="skill-time-input" min="0" required>
+                                        </td>
+                                            <td>
+                                                <!-- type="submit" に変更し、form属性で紐づける -->
+                                                    <button type="submit" th:form="'updateForm-' + ${item.id}" class="skill-save-btn">学習時間を保存する</button>
+                                            </td>
+                                                <td>
+                                                    <button type="button" class="skill-delete-btn">削除する</button>
+                                                </td>
                                 </tr>
                             </tbody>
                         </table>
@@ -148,6 +169,16 @@
         <footer class="footer">
             <div class="footer-logo">portfolio site</div>
         </footer>
+
+        <!-- 編集完了モーダル -->
+        <div th:if="${isUpdated}" class="modal-overlay">
+            <div class="modal-content">
+                <p class="modal-text" th:text="${updatedItemName} + 'の学習時間を保存しました！'">
+                    Rubyの学習時間を保存しました！
+                </p>
+                <a th:href="@{/skill-edit(month=${selectedMonth})}" class="modal-back-btn">編集ページに戻る</a>
+            </div>
+        </div>
 
     </body>
 </html>
